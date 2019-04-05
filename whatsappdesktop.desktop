@@ -2,8 +2,8 @@
 Type=Application
 Version=1.0
 Name=WhatsApp Desktop
-Comment=WhatsApp Desktop unofficial client
-Exec=/opt/whatsapp-desktop/WhatsApp
+Comment=WhatsApp Desktop
+Exec=/opt/whatsapp-desktop/whatsapp
 StartupNotify=false
 Terminal=false
 Categories=Network;InstantMessaging;
