@@ -1,21 +1,13 @@
 {
   "name": "whatsapp-desktop",
-  "version": "0.5.0",
-  "repository": "https://github.com/Enrico204/Whatsapp-Desktop.git",
-  "description": "Unofficial WhatsApp Desktop Client. Build with Electron.",
+  "version": "1.0.0",
+  "repository": "https://github.com/cyfrost/Whatsapp-Desktop.git",
+  "description": "WhatsApp desktop client, built with electron.js",
   "main": "main.js",
   "scripts": {
-    "dev": "electron --debug=5858 ./app",
-    "preinstall": "cd app && yarn",
-    "gettext": "xgettext app/*.js -j --omit-header -o app/locale/messages.pot && xgettext app/html/*.html -L JavaScript -j --omit-header -o app/locale/messages.pot",
-    "clean": "node clean.js",
+    "start": "cd app && electron .",
     "build:win": "electron-packager ./app \"WhatsApp\" --out=dist --package-manager=yarn --platform=win32 --arch=x64 --electron-version=1.7.8 --icon=assets/win/whatsapp.ico",
-    "build:osx": "electron-packager ./app \"WhatsApp\" --out=dist --package-manager=yarn --platform=darwin --arch=x64 --electron-version=1.7.8 --icon=assets/osx/whatsapp.icns",
-    "build:linux": "electron-packager ./app \"WhatsApp\" --out=dist --package-manager=yarn --platform=linux --arch=x64 --electron-version=1.7.8 --icon=assets/win/whatsapp.ico",
-    "build:linux32": "electron-packager ./app \"WhatsApp\" --out=dist --package-manager=yarn --platform=linux --arch=ia32 --electron-version=1.7.8 --icon=assets/win/whatsapp.ico",
-    "build:linuxarmv7l": "electron-packager ./app \"WhatsApp\" --out=dist --package-manager=yarn --platform=linux --arch=armv7l --electron-version=1.7.8 --icon=assets/win/whatsapp.ico",
-    "build:appimage": "electron-packager ./app \"whatsapp-desktop\" --out=dist --package-manager=yarn --platform=linux --arch=x64 --electron-version=1.7.8 --icon=assets/win/whatsapp.ico && ./node_modules/.bin/electron-builder --publish=never --pd dist/whatsapp-desktop-linux-x64/ --linux AppImage",
-    "build:flatpak64": "electron-packager ./app \"whatsapp-desktop\" --out=dist --package-manager=yarn --platform=linux --arch=x64 --electron-version=1.7.8 --icon=assets/win/whatsapp.ico && cp it.enrico204.whatsapp-desktop.appdata.xml dist/whatsapp-desktop-linux-x64/ && electron-installer-flatpak --src dist/whatsapp-desktop-linux-x64/ --dest dist/ --arch x64 --config flatpak.config.json"
+    "build:linux": "electron-packager ./app \"WhatsApp\" --out=dist --package-manager=yarn --platform=linux --arch=x64 --electron-version=1.7.8 --icon=assets/win/whatsapp.ico"
   },
   "devDependencies": {
     "electron": "^4.1.4",
@@ -23,7 +15,6 @@
     "electron-packager": "^13.1.1"
   },
   "build": {
-    "appId": "it.enrico204.whatsapp-desktop",
     "linux": {
       "category": "Utility",
       "icon": "assets/lnx/"
