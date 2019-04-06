@@ -129,25 +129,8 @@
         'height: ' + config.currentSettings.thumbSize + 'px !important;}' +
         '.image-thumb img.image-thumb-body { width: auto !important;' +
         'height: ' + config.currentSettings.thumbSize + 'px !important;}';
-   
-       var darkMode = '#pane-side, #pane-side div div div div div div, #side header, #side header div div \
-                   #side div, #side div div, #side div div button, #side div div label, #side div div input, \
-                   #main footer, #main footer div, #main footer div div, #main header, #main header div div span, \
-                   #main header div div div span \
-                   { background-color: #2E2C2B !important; color: white; }\n \
-                   .message-in { background-color: #75706E !important; }\n \
-                   .message, .media-caption { color: #F0F0F0; }\n \
-                   .message-in .tail-container, .message-in.tail-override-right .tail-container, \
-                   .message-out.tail-override-right .tail-container, .message-in.tail-override-left \
-                   .tail-container { background-image: none !important; }\n \
-                   .block-compose, .block-compose .input-container { background-color: #2E2C2B !important; }\n \
-                   .pane-chat-header, .chat.active, .chat, .chatlist-panel-search, .pane-header.pane-list-header, \
-                   .input-chatlist-search, .chatlist-panel-body, .chatlist-panel-search div label input, \
-                   .chatlist-panel-search div label, #app > div > div > div._3q4NP._1Iexl > div, .message > div > span \
-                    { background-color: #2E2C2B !important;, background-image: none !important; }\n \
-                   .chat-title, .header-title, .chat-body div span { color: white; }';
-   
-       var blurImages = "div.message-in img, div.message-out img { filter: contrast(25%) blur(8px) grayscale(75%); } \n \
+
+        var blurImages = "div.message-in img, div.message-out img { filter: contrast(25%) blur(8px) grayscale(75%); } \n \
                    div.message-in:hover img, div.message-out:hover img { filter: none; }";
    
        if (config.currentSettings.hideAvatars) {
@@ -156,9 +139,7 @@
        if (config.currentSettings.hidePreviews) {
         this.insertCSS(noPreview);
        }
-       if (config.currentSettings.darkMode) {
-        this.insertCSS(darkMode);
-       }
+
        if (config.currentSettings.blurImages) {
         this.insertCSS(blurImages);
        }

@@ -72,22 +72,6 @@
         }
        },
        {
-        label: ('Dark mode'),
-        accelerator: 'CmdOrCtrl+Shift+Alt+D',
-        type: 'checkbox',
-        checked: (function() {
-         return global.config.get("darkMode");
-        })(),
-        click: function(item, focusedWindow) {
-         global.config.set("darkMode", global.config.get("darkMode") != true);
-         item.checked = global.config.get("darkMode");
-         global.config.saveConfiguration();
-         global.config.applyConfiguration();
-         if (focusedWindow)
-          focusedWindow.reload();
-        }
-       },
-       {
         label: ('Quiet mode'),
         accelerator: 'CmdOrCtrl+Shift+Alt+Q',
         type: 'checkbox',
