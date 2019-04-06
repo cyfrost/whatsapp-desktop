@@ -1,4 +1,4 @@
-(function(scope) {
+(function (scope) {
     "use strict";
 
     var app = require('electron').app;
@@ -31,7 +31,7 @@
 
         var groupLinkOpenRequested = null;
         if (argv.length > 1) {
-            for(var i = 0; i < argv.length; i++) {
+            for (var i = 0; i < argv.length; i++) {
                 if (argv[i].indexOf("https://web.whatsapp.com") >= 0) {
                     groupLinkOpenRequested = argv[i];
                     log.info("Opening a group link: " + groupLinkOpenRequested);
@@ -74,7 +74,7 @@
 
     var groupLinkOpenRequested = null;
     if (process.argv.length > 1) {
-        for(var i = 0; i < process.argv.length; i++) {
+        for (var i = 0; i < process.argv.length; i++) {
             if (process.argv[i].indexOf("https://chat.whatsapp.com") >= 0) {
                 groupLinkOpenRequested = process.argv[i];
                 log.info("Opening a group link: " + groupLinkOpenRequested);
@@ -83,27 +83,29 @@
         }
     }
 
-    global.autolauncher = new AutoLaunch({ name: app.getName() });
+    global.autolauncher = new AutoLaunch({
+        name: app.getName()
+    });
 
-    global.onlyOSX = function(callback) {
+    global.onlyOSX = function (callback) {
         if (process.platform === 'darwin') {
             return Function.bind.apply(callback, this, [].slice.call(arguments, 0));
         }
-        return function() {};
+        return function () {};
     };
 
-    global.onlyLinux = function(callback) {
+    global.onlyLinux = function (callback) {
         if (process.platform === 'linux') {
             return Function.bind.apply(callback, this, [].slice.call(arguments, 0));
         }
-        return function() {};
+        return function () {};
     };
 
-    global.onlyWin = function(callback) {
+    global.onlyWin = function (callback) {
         if (process.platform === 'win32' || process.platform === 'win64') {
             return Function.bind.apply(callback, this, [].slice.call(arguments, 0));
         }
-        return function() {};
+        return function () {};
     };
 
 
@@ -123,7 +125,7 @@
 
         loadConfiguration() {
             log.info("Loading configuration");
-            var settingsFile = app.getPath('userData') +"/settings.json";
+            var settingsFile = app.getPath('userData') + "/settings.json";
             try {
                 var data = fileSystem.readFileSync(settingsFile);
                 if (data != "" && data != "{}" && data != "[]") {
@@ -138,7 +140,7 @@
                 log.warn("Error loading configuration from " + settingsFile + " (" + e + "), loading default");
             }
             // First time configuration - eg. before app init
-            if(config.get("disablegpu") == true) {
+            if (config.get("disablegpu") == true) {
                 log.warn("Disabling GPU acceleration");
                 app.disableHardwareAcceleration();
             }
@@ -153,26 +155,26 @@
                 var fontSize = config.get("fontSize");
                 fontSize = (fontSize == undefined) ? "normal" : fontSize;
                 var fontCSS = (fontSize != "normal") ? "font-size:" + fontSize + " !important;" : "";
-                this.insertCSS('* { text-rendering: optimizeSpeed !important; -webkit-font-smoothing: subpixel-antialiased !important; '
-                    + fontCSS + '}');
+                this.insertCSS('* { text-rendering: optimizeSpeed !important; -webkit-font-smoothing: subpixel-antialiased !important; ' +
+                    fontCSS + '}');
 
                 var imgpath = config.get("background-image");
                 if (imgpath != undefined) {
                     var img = new Buffer(fileSystem.readFileSync(imgpath)).toString('base64');
-                    var opacity = parseFloat(config.get("background-opacity"))/100.0;
-                    var mime = (imgpath.endsWith(".jpg") || imgpath.endsWith(".jpeg"))?"image/jpg":
-                        ((imgpath.endsWith(".png")?"image/png":((imgpath.endsWith(".gif")?"image/gif":""))));
-                    this.insertCSS(".pane-chat-tile { background-image: url(data:"+mime+";base64,"+img+") !important; background-size: cover !important; opacity: "+
-                        opacity+" !important; max-width: 100% !important; }");
+                    var opacity = parseFloat(config.get("background-opacity")) / 100.0;
+                    var mime = (imgpath.endsWith(".jpg") || imgpath.endsWith(".jpeg")) ? "image/jpg" :
+                        ((imgpath.endsWith(".png") ? "image/png" : ((imgpath.endsWith(".gif") ? "image/gif" : ""))));
+                    this.insertCSS(".pane-chat-tile { background-image: url(data:" + mime + ";base64," + img + ") !important; background-size: cover !important; opacity: " +
+                        opacity + " !important; max-width: 100% !important; }");
                 }
 
                 var noAvatar = '.chat-avatar img { display: none !important; }';
                 var noPreview = '.chat-secondary .chat-status{z-index: -999;}';
 
-                var thumbSize = '.image-thumb { width: '+ config.currentSettings.thumbSize + 'px  !important;' +
-                'height: '+ config.currentSettings.thumbSize + 'px !important;}' +
-                '.image-thumb img.image-thumb-body { width: auto !important;' +
-                'height: '+ config.currentSettings.thumbSize + 'px !important;}';
+                var thumbSize = '.image-thumb { width: ' + config.currentSettings.thumbSize + 'px  !important;' +
+                    'height: ' + config.currentSettings.thumbSize + 'px !important;}' +
+                    '.image-thumb img.image-thumb-body { width: auto !important;' +
+                    'height: ' + config.currentSettings.thumbSize + 'px !important;}';
 
                 var darkMode = '#pane-side, #pane-side div div div div div div, #side header, #side header div div \
                 #side div, #side div div, #side div div button, #side div div label, #side div div input, \
@@ -197,10 +199,10 @@
                 if (config.currentSettings.hideAvatars) {
                     this.insertCSS(noAvatar);
                 }
-                if (config.currentSettings.hidePreviews){
+                if (config.currentSettings.hidePreviews) {
                     this.insertCSS(noPreview);
                 }
-                if (config.currentSettings.darkMode){
+                if (config.currentSettings.darkMode) {
                     this.insertCSS(darkMode);
                 }
                 if (config.currentSettings.blurImages) {
@@ -224,9 +226,9 @@
                 var session = whatsApp.window.webContents.session;
                 var httpProxy = config.get("httpProxy");
                 var httpsProxy = config.get("httpsProxy") || httpProxy;
-                if(httpProxy) {
-                    log.info("Proxy configured: " + "http="+ httpProxy +";https=" + httpsProxy);
-                    session.setProxy("http="+ httpProxy +";https=" + httpsProxy, function(){});
+                if (httpProxy) {
+                    log.info("Proxy configured: " + "http=" + httpProxy + ";https=" + httpsProxy);
+                    session.setProxy("http=" + httpProxy + ";https=" + httpsProxy, function () {});
                 } else {
                     log.info("No proxy");
                 }
@@ -234,14 +236,15 @@
 
             // OSX Dock menu
             if (process.platform == 'darwin') {
-                const dockMenu = AppMenu.buildFromTemplate([
-                  {label: 'Show main window', click () {
-                      whatsApp.window.show();
-                      whatsApp.window.setAlwaysOnTop(true);
-                      whatsApp.window.focus();
-                      whatsApp.window.setAlwaysOnTop(false);
-                  }}
-                ])
+                const dockMenu = AppMenu.buildFromTemplate([{
+                    label: 'Show main window',
+                    click() {
+                        whatsApp.window.show();
+                        whatsApp.window.setAlwaysOnTop(true);
+                        whatsApp.window.focus();
+                        whatsApp.window.setAlwaysOnTop(false);
+                    }
+                }])
                 app.dock.setMenu(dockMenu);
                 app.on('activate', (event, hasVisibleWindows) => {
                     whatsApp.window.show();
@@ -259,14 +262,14 @@
                 whatsApp.tray = undefined;
             }
             if (config.get("autostart") == true) {
-                autolauncher.isEnabled().then(function(enabled) {
+                autolauncher.isEnabled().then(function (enabled) {
                     if (!enabled) {
                         autolauncher.enable();
                         log.info("Autostart enabled");
                     }
                 });
             } else {
-                autolauncher.isEnabled().then(function(enabled) {
+                autolauncher.isEnabled().then(function (enabled) {
                     if (enabled) {
                         autolauncher.disable();
                         log.info("Autostart disabled");
@@ -282,7 +285,7 @@
                 clearTimeout(config.saveTimeout);
                 config.saveTimeout = null;
             }
-            config.saveTimeout = setTimeout(function() {
+            config.saveTimeout = setTimeout(function () {
                 log.info("Saving configuration");
                 config.set("maximized", whatsApp.window.isMaximized());
                 if (config.currentSettings == undefined || JSON.stringify(config.currentSettings) == "") {
@@ -295,15 +298,15 @@
             }, 2000);
         },
 
-        get (key) {
+        get(key) {
             return config.currentSettings[key];
         },
 
-        set (key, value) {
+        set(key, value) {
             config.currentSettings[key] = value;
         },
 
-        unSet (key) {
+        unSet(key) {
             if (config.currentSettings.hasOwnProperty(key)) {
                 delete config.currentSettings[key];
             }
@@ -333,7 +336,7 @@
             log.info("Creating menu");
             whatsApp.menu =
                 AppMenu.buildFromTemplate(require('./menu'));
-                AppMenu.setApplicationMenu(whatsApp.menu);
+            AppMenu.setApplicationMenu(whatsApp.menu);
         },
 
         setNormalTray() {
@@ -372,10 +375,12 @@
                 if (global.whatsApp.isWarningTrayIcon() && !global.whatsApp.isNewMessageIcon()) {
                     log.info("Setting tray icon to warning");
                     whatsApp.tray.setImage(__dirname + '/assets/icon/iconWarning.png');
-                } if (global.whatsApp.isWarningTrayIcon() && global.whatsApp.isNewMessageIcon()) {
+                }
+                if (global.whatsApp.isWarningTrayIcon() && global.whatsApp.isNewMessageIcon()) {
                     log.info("Setting tray icon to warning with messages");
                     whatsApp.tray.setImage(__dirname + '/assets/icon/iconWarningWithMsg.png');
-                } if (!global.whatsApp.isWarningTrayIcon() && global.whatsApp.isNewMessageIcon()) {
+                }
+                if (!global.whatsApp.isWarningTrayIcon() && global.whatsApp.isNewMessageIcon()) {
                     log.info("Setting tray icon to normal with messages");
                     whatsApp.tray.setImage(__dirname + '/assets/icon/iconWithMsg.png');
                 } else {
@@ -397,26 +402,32 @@
             whatsApp.tray = new AppTray(trayImg);
 
             // Setting up a trayicon context menu
-            whatsApp.trayContextMenu = AppMenu.buildFromTemplate([
-                {label: ('Show'),
-                visible: config.get("startminimized"), // Hide this option on start
-                click: function() {
-                    whatsApp.window.show();
-                    whatsApp.window.setAlwaysOnTop(true);
-                    whatsApp.window.focus();
-                    whatsApp.window.setAlwaysOnTop(false);
-                }},
+            whatsApp.trayContextMenu = AppMenu.buildFromTemplate([{
+                    label: ('Show'),
+                    visible: config.get("startminimized"), // Hide this option on start
+                    click: function () {
+                        whatsApp.window.show();
+                        whatsApp.window.setAlwaysOnTop(true);
+                        whatsApp.window.focus();
+                        whatsApp.window.setAlwaysOnTop(false);
+                    }
+                },
 
-                {label: ('Hide'),
-                visible: !config.get("startminimized"), // Show this option on start
-                click: function() {
-                    whatsApp.window.hide();
-                }},
+                {
+                    label: ('Hide'),
+                    visible: !config.get("startminimized"), // Show this option on start
+                    click: function () {
+                        whatsApp.window.hide();
+                    }
+                },
 
                 // Quit WhatsApp
-                {label: ('Quit'), click: function() {
-                    app.quit();
-                }}
+                {
+                    label: ('Quit'),
+                    click: function () {
+                        app.quit();
+                    }
+                }
             ]);
             whatsApp.tray.setContextMenu(whatsApp.trayContextMenu);
 
@@ -447,7 +458,7 @@
             log.info("Clearing cache");
             try {
                 fileSystem.unlinkSync(app.getPath('userData') + '/Application Cache/Index');
-            } catch(e) {
+            } catch (e) {
                 log.warn("Error clearing cache: " + e);
             }
         },
@@ -467,8 +478,8 @@
                 "autoHideMenuBar": config.get("autoHideMenuBar") == true,
                 "icon": __dirname + "/assets/icon/icon.png",
                 "webPreferences": {
-                  "nodeIntegration": false,
-                  "preload": join(__dirname, 'js', 'injected.js')
+                    "nodeIntegration": false,
+                    "preload": join(__dirname, 'js', 'injected.js')
                 }
             });
 
@@ -478,7 +489,7 @@
 
             whatsApp.window.loadURL('https://web.whatsapp.com');
 
-            whatsApp.window.webContents.on('did-finish-load', function() {
+            whatsApp.window.webContents.on('did-finish-load', function () {
                 if (groupLinkOpenRequested != null) {
                     whatsApp.window.webContents.executeJavaScript(
                         "var el = document.createElement('a');\
@@ -493,14 +504,19 @@
                 }
                 // Checking for new version
                 var ep = "https://api.github.com/repos/Enrico204/Whatsapp-Desktop/releases/latest";
-                log.info("Checking for new versions (current version "+pjson.version+")");
-                request.get({url: ep, headers:{'User-Agent':'Whatsapp-Desktop'}}, function(err, response, body) {
+                log.info("Checking for new versions (current version " + pjson.version + ")");
+                request.get({
+                    url: ep,
+                    headers: {
+                        'User-Agent': 'Whatsapp-Desktop'
+                    }
+                }, function (err, response, body) {
                     if (!err && response != undefined && response.statusCode == 200) {
                         var ghinfo = JSON.parse(body);
                         global.whatsApp.newVersion = ghinfo['tag_name'];
-                        if (ghinfo['tag_name'][0] == 'v'
-                                && ghinfo['tag_name'] != "v"+pjson.version
-                                && ghinfo['tag_name'].indexOf("beta") == -1) {
+                        if (ghinfo['tag_name'][0] == 'v' &&
+                            ghinfo['tag_name'] != "v" + pjson.version &&
+                            ghinfo['tag_name'].indexOf("beta") == -1) {
                             log.info("A new version is available: " + ghinfo['tag_name']);
                             var options = {
                                 title: "Whatsapp-Desktop",
@@ -509,8 +525,8 @@
                                 sound: true
                             };
                             notifier.notify(options, function (err, response) {
-                                    if (!err) log.warn("Error: " + err);
-                                });
+                                if (!err) log.warn("Error: " + err);
+                            });
                         } else {
                             log.info("Already on latest version");
                         }
@@ -525,7 +541,7 @@
                 var httpProxy = config.get("httpProxy");
                 var httpsProxy = config.get("httpsProxy") || httpProxy;
                 if (httpProxy) {
-                    session.setProxy("http="+ httpProxy +";https=" + httpsProxy, () => {});
+                    session.setProxy("http=" + httpProxy + ";https=" + httpsProxy, () => {});
                 }
             }
 
@@ -551,21 +567,21 @@
 
             whatsApp.window.on('page-title-updated', onlyOSX((event, title) => {
                 var count = title.match(/\((\d+)\)/);
-                    count = count ? count[1] : '';
+                count = count ? count[1] : '';
                 app.dock.setBadge(count);
                 log.info("Badge updated: " + count);
             }));
 
             whatsApp.window.on('page-title-updated', onlyLinux((event, title) => {
                 var count = title.match(/\((\d+)\)/);
-                    count = count ? count[1] : '';
+                count = count ? count[1] : '';
 
                 if (parseInt(count) > 0) {
                     if (!whatsApp.window.isFocused() && global.config.get("quietMode") !== true) {
-                      log.info("Flashing frame");
-                      whatsApp.window.flashFrame(true);
+                        log.info("Flashing frame");
+                        whatsApp.window.flashFrame(true);
                     }
-                    var badge = NativeImage.createFromPath(app.getAppPath() + "/assets/badges/badge-" + (count > 9 ? 0 : count) +".png");
+                    var badge = NativeImage.createFromPath(app.getAppPath() + "/assets/badges/badge-" + (count > 9 ? 0 : count) + ".png");
                     whatsApp.window.setOverlayIcon(badge, "new messages");
                     global.whatsApp.setNewMessageIcon();
                 } else {
@@ -577,13 +593,13 @@
 
             whatsApp.window.on('page-title-updated', onlyWin((event, title) => {
                 var count = title.match(/\((\d+)\)/);
-                    count = count ? count[1] : '';
+                count = count ? count[1] : '';
 
                 if (parseInt(count) > 0) {
                     if (!whatsApp.window.isFocused()) {
-                      whatsApp.window.flashFrame(true);
+                        whatsApp.window.flashFrame(true);
                     }
-                    var badge = NativeImage.createFromPath(app.getAppPath() + "/assets/badges/badge-" + (count > 9 ? 0 : count) +".png");
+                    var badge = NativeImage.createFromPath(app.getAppPath() + "/assets/badges/badge-" + (count > 9 ? 0 : count) + ".png");
                     whatsApp.window.setOverlayIcon(badge, "new messages");
                     global.whatsApp.setNewMessageIcon();
                 } else {
@@ -623,7 +639,7 @@
                 }
             }));
 
-            whatsApp.window.on("close", function(){
+            whatsApp.window.on("close", function () {
                 if (settings.window) {
                     settings.window.close();
                     settings.window = null;
@@ -631,7 +647,7 @@
             });
 
             // Toggle contextmenu content when window is shown
-            whatsApp.window.on("show", function() {
+            whatsApp.window.on("show", function () {
                 if (whatsApp.tray != undefined) {
                     whatsApp.trayContextMenu.items[0].visible = false;
                     whatsApp.trayContextMenu.items[1].visible = true;
@@ -643,7 +659,7 @@
             });
 
             // Toggle contextmenu content when window is hidden
-            whatsApp.window.on("hide", function() {
+            whatsApp.window.on("hide", function () {
                 if (whatsApp.tray != undefined) {
                     whatsApp.trayContextMenu.items[0].visible = true;
                     whatsApp.trayContextMenu.items[1].visible = false;
@@ -675,7 +691,7 @@
     global.settings = {
         init() {
             // if there is already one instance of the window created show that one
-            if (settings.window){
+            if (settings.window) {
                 settings.window.show();
             } else {
                 settings.openWindow();
@@ -685,47 +701,45 @@
 
         createMenu() {
             settings.menu = new AppMenu();
-            settings.menu.append(new MenuItem(
-                {
-                    label: "close",
-                    visible: false,
-                    accelerator: "esc",
-                    click() {settings.window.close();}
-                })
-            );
-            settings.menu.append(new MenuItem(
-                {
-                    label: 'Toggle DevTools',
-                    accelerator: 'Ctrl+Shift+I',
-                    visible: false,
-                    click() {  settings.window.toggleDevTools(); }
-                })
-            );
-            settings.menu.append(new MenuItem(
-                {
-                    label: 'Reload settings view',
-                    accelerator: 'CmdOrCtrl+r',
-                    visible: false,
-                    click() { settings.window.reload();}
-                })
-            );
+            settings.menu.append(new MenuItem({
+                label: "close",
+                visible: false,
+                accelerator: "esc",
+                click() {
+                    settings.window.close();
+                }
+            }));
+            settings.menu.append(new MenuItem({
+                label: 'Toggle DevTools',
+                accelerator: 'Ctrl+Shift+I',
+                visible: false,
+                click() {
+                    settings.window.toggleDevTools();
+                }
+            }));
+            settings.menu.append(new MenuItem({
+                label: 'Reload settings view',
+                accelerator: 'CmdOrCtrl+r',
+                visible: false,
+                click() {
+                    settings.window.reload();
+                }
+            }));
             settings.window.setMenu(settings.menu);
             settings.window.setMenuBarVisibility(false);
         },
 
         openWindow() {
-            settings.window = new BrowserWindow(
-                {
-                    "width": 550,
-                    "height": 550,
-                    "resizable": true,
-                    "center": true,
-                    "frame": true,
-                    "webPreferences": {
-                      "nodeIntegration": true,
-                    }
+            settings.window = new BrowserWindow({
+                "width": 550,
+                "height": 550,
+                "resizable": true,
+                "center": true,
+                "frame": true,
+                "webPreferences": {
+                    "nodeIntegration": true,
                 }
-            );
+            });
 
             settings.window.loadURL("file://" + __dirname + "/html/settings.html");
             settings.window.show();
@@ -740,7 +754,7 @@
     global.about = {
         init() {
             // if there is already one instance of the window created show that one
-            if (about.window){
+            if (about.window) {
                 about.window.show();
             } else {
                 about.openWindow();
@@ -750,18 +764,16 @@
         },
 
         openWindow() {
-            about.window = new BrowserWindow(
-                {
-                    "width": 600,
-                    "height": 450,
-                    "resizable": true,
-                    "center": true,
-                    "frame": true,
-                    "webPreferences": {
-                      "nodeIntegration": true,
-                    }
+            about.window = new BrowserWindow({
+                "width": 600,
+                "height": 450,
+                "resizable": true,
+                "center": true,
+                "frame": true,
+                "webPreferences": {
+                    "nodeIntegration": true,
                 }
-            );
+            });
 
             about.window.loadURL("file://" + __dirname + "/html/about.html");
             about.window.show();
@@ -776,7 +788,9 @@
         }
     };
 
-    const {ipcMain} = require('electron');
+    const {
+        ipcMain
+    } = require('electron');
     ipcMain.on('phoneinfoupdate', (event, arg) => {
         global.phoneinfo.infos = arg;
         if (arg.info != "NORMAL") {
@@ -795,7 +809,7 @@
     global.phoneinfo = {
         init() {
             // if there is already one instance of the window created show that one
-            if (phoneinfo.window){
+            if (phoneinfo.window) {
                 phoneinfo.window.show();
             } else {
                 phoneinfo.openWindow();
@@ -805,31 +819,31 @@
 
         createMenu() {
             phoneinfo.menu = new AppMenu();
-            phoneinfo.menu.append(new MenuItem(
-                {
-                    label: "close",
-                    visible: false,
-                    accelerator: "esc",
-                    click() {phoneinfo.window.close();}
-                })
-            );
-            phoneinfo.menu.append(new MenuItem(
-                {
-                    label: 'Reload phoneinfo view',
-                    accelerator: 'CmdOrCtrl+r',
-                    visible: false,
-                    click() { phoneinfo.window.reload();}
-                })
-            );
+            phoneinfo.menu.append(new MenuItem({
+                label: "close",
+                visible: false,
+                accelerator: "esc",
+                click() {
+                    phoneinfo.window.close();
+                }
+            }));
+            phoneinfo.menu.append(new MenuItem({
+                label: 'Reload phoneinfo view',
+                accelerator: 'CmdOrCtrl+r',
+                visible: false,
+                click() {
+                    phoneinfo.window.reload();
+                }
+            }));
             phoneinfo.menu.append(new MenuItem({
                 label: 'Toggle Developer Tools',
-                accelerator: (function() {
+                accelerator: (function () {
                     if (process.platform == 'darwin')
                         return 'Alt+Command+I';
                     else
                         return 'Ctrl+Shift+I';
                 })(),
-                click: function(item, focusedWindow) {
+                click: function (item, focusedWindow) {
                     if (focusedWindow)
                         focusedWindow.toggleDevTools();
                 }
@@ -839,18 +853,16 @@
         },
 
         openWindow() {
-            phoneinfo.window = new BrowserWindow(
-                {
-                    "width": 500,
-                    "height": 500,
-                    "resizable": true,
-                    "center": true,
-                    "frame": true,
-                    "webPreferences": {
-                      "nodeIntegration": true,
-                    }
+            phoneinfo.window = new BrowserWindow({
+                "width": 500,
+                "height": 500,
+                "resizable": true,
+                "center": true,
+                "frame": true,
+                "webPreferences": {
+                    "nodeIntegration": true,
                 }
-            );
+            });
 
             phoneinfo.window.loadURL("file://" + __dirname + "/html/phoneinfo.html");
             phoneinfo.window.show();
@@ -864,9 +876,9 @@
     app.on('ready', () => {
         whatsApp.init();
         // setting of globalShortcut
-        if(config.get("globalshortcut") == true) {
-            globalShortcut.register('CmdOrCtrl + Alt + W', function(){
-                if(whatsApp.window.isFocused())
+        if (config.get("globalshortcut") == true) {
+            globalShortcut.register('CmdOrCtrl + Alt + W', function () {
+                if (whatsApp.window.isFocused())
                     whatsApp.window.hide();
                 else
                     whatsApp.window.show();
@@ -875,8 +887,8 @@
     });
 
     // unregistering the globalShorcut on quit of application
-    app.on('will-quit', function(){
-        if(config.get("globalshortcut") == true) {
+    app.on('will-quit', function () {
+        if (config.get("globalshortcut") == true) {
             globalShortcut.unregisterAll();
         }
     });
