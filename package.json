@@ -5,24 +5,24 @@
   "description": "WhatsApp desktop client, built with electron.js",
   "main": "main.js",
   "scripts": {
-    "start": "cd app && electron .",
-    "build:win": "electron-packager ./app \"WhatsApp\" --out=dist --package-manager=yarn --platform=win32 --arch=x64 --electron-version=1.7.8 --icon=assets/win/whatsapp.ico",
-    "build:linux": "electron-packager ./app \"WhatsApp\" --out=dist --package-manager=yarn --platform=linux --arch=x64 --electron-version=1.7.8 --icon=assets/win/whatsapp.ico"
+   "start": "cd app && electron .",
+   "build:win": "electron-packager ./app \"WhatsApp\" --out=dist --package-manager=npm --platform=win32 --arch=x64 --icon=assets/win/whatsapp.ico",
+   "build:linux": "electron-packager ./app \"WhatsApp\" --out=dist --package-manager=npm --platform=linux --arch=x64 --icon=assets/win/whatsapp.ico"
   },
   "devDependencies": {
-    "electron": "^4.1.4",
-    "electron-installer-flatpak": "^0.8.0",
-    "electron-packager": "^13.1.1"
+   "electron": "^4.1.4",
+   "electron-installer-flatpak": "^0.8.0",
+   "electron-packager": "^13.1.1"
   },
   "build": {
-    "linux": {
-      "category": "Utility",
-      "icon": "assets/lnx/"
-    }
+   "linux": {
+    "category": "Utility",
+    "icon": "assets/lnx/"
+   }
   },
   "dependencies": {
-    "electron-builder": "^20.39.0",
-    "process-nextick-args": "^2.0.0",
-    "util-deprecate": "^1.0.2"
+   "electron-builder": "^20.39.0",
+   "process-nextick-args": "^2.0.0",
+   "util-deprecate": "^1.0.2"
   }
-}
+ }

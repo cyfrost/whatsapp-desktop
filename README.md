@@ -53,8 +53,8 @@ This is due to some bugs between Electron and KDE on tray icons, see [this comme
 
 To build from the source, run the following commands:
 
-    yarn install
-    yarn run build:platform
+    npm install
+    npm run build:platform
 
 where `build:platform` can be `build:linux` if you want to build for Linux (use `build:linux32` for 32-bit), `build:osx` for OSX only, `build:win` for Windows only, or simply `build` to build for all platforms.
 
@@ -62,7 +62,7 @@ You'll find artifacts into `dist/` directory.
 
 ## Run on-the-fly (for devs)
 
-If you're a developer, you may want to use directly `yarn run dev` (in project root) instead of compiling the code each time. Please note that autostart feature will not work in this mode.
+If you're a developer, you may want to use directly `npm run start` (in project root) instead of compiling the code each time. Please note that autostart feature will not work in this mode.
 
 ### Cross-build for Windows (from Linux/macOS)
 
