@@ -3,15 +3,15 @@
 
     var template = [
         {
-            label: "&" + _('Edit'),
+            label: "&" + ('Edit'),
             submenu: [
                 {
-                    label: _('Undo'),
+                    label: ('Undo'),
                     accelerator: 'CmdOrCtrl+Z',
                     role: 'undo'
                 },
                 {
-                    label: _('Redo'),
+                    label: ('Redo'),
                     accelerator: 'Shift+CmdOrCtrl+Z',
                     role: 'redo'
                 },
@@ -19,22 +19,22 @@
                     type: 'separator'
                 },
                 {
-                    label: _('Cut'),
+                    label: ('Cut'),
                     accelerator: 'CmdOrCtrl+X',
                     role: 'cut'
                 },
                 {
-                    label: _('Copy'),
+                    label: ('Copy'),
                     accelerator: 'CmdOrCtrl+C',
                     role: 'copy'
                 },
                 {
-                    label: _('Paste'),
+                    label: ('Paste'),
                     accelerator: 'CmdOrCtrl+V',
                     role: 'paste'
                 },
                 {
-                    label: _('Select All'),
+                    label: ('Select All'),
                     accelerator: 'CmdOrCtrl+A',
                     role: 'selectall'
                 },
@@ -42,7 +42,7 @@
                     type: 'separator'
                 },
                 {
-                    label: _('Settings'),
+                    label: ('Settings'),
                     accelerator: 'CmdOrCtrl+,',
                     click: function () {
                         global.settings.init();
@@ -51,10 +51,10 @@
             ]
         },
         {
-            label: "&" + _('View'),
+            label: "&" + ('View'),
             submenu: [
                 {
-                    label: _('Reload'),
+                    label: ('Reload'),
                     accelerator: 'CmdOrCtrl+R',
                     click: function(item, focusedWindow) {
                         if (focusedWindow)
@@ -63,7 +63,7 @@
                 },
                 {type: 'separator'},
                 {
-                    label: _('Toggle Full Screen'),
+                    label: ('Toggle Full Screen'),
                     accelerator: (function() {
                         if (process.platform == 'darwin')
                             return 'Ctrl+Command+F';
@@ -76,7 +76,7 @@
                     }
                 },
                 {
-                    label: _('Dark mode'),
+                    label: ('Dark mode'),
                     accelerator: 'CmdOrCtrl+Shift+Alt+D',
                     type: 'checkbox',
                     checked: (function() {
@@ -92,7 +92,7 @@
                     }
                 },
                 {
-                    label: _('Quiet mode'),
+                    label: ('Quiet mode'),
                     accelerator: 'CmdOrCtrl+Shift+Alt+Q',
                     type: 'checkbox',
                     checked: (function() {
@@ -106,7 +106,7 @@
                 },
                 {type: 'separator'},
                 {
-                    label: _('Toggle Developer Tools'),
+                    label: ('Toggle Developer Tools'),
                     accelerator: (function() {
                         if (process.platform == 'darwin')
                             return 'Alt+Command+I';
@@ -120,7 +120,7 @@
                 },
                 {type: 'separator'},
                 {
-                    label: _('Phone info'),
+                    label: ('Phone info'),
                     accelerator: (function() {
                         if (process.platform == 'darwin')
                             return 'Alt+Command+N';
@@ -135,16 +135,16 @@
             ]
         },
         {
-            label: "&" + _('Window'),
+            label: "&" + ('Window'),
             role: 'window',
             submenu: [
                 {
-                    label: _('Minimize'),
+                    label: ('Minimize'),
                     accelerator: 'CmdOrCtrl+M',
                     role: 'minimize'
                 },
                 {
-                    label: _('Close'),
+                    label: ('Close'),
                     accelerator: 'CmdOrCtrl+W',
                     role: 'close'
                 },
@@ -157,10 +157,10 @@
             ]
         },
         {
-            label: "&" + _('Audio'),
+            label: "&" + ('Audio'),
             submenu: [
                 {
-                    label: _('Increase Audio Rate by 20%'),
+                    label: ('Increase Audio Rate by 20%'),
                     accelerator: 'CmdOrCtrl+=',
                     click: function(item, focusedWindow) {
                         focusedWindow && focusedWindow.webContents.executeJavaScript(
@@ -169,7 +169,7 @@
                     }
                 },
                 {
-                    label: _('Decrease Audio Rate by 20%'),
+                    label: ('Decrease Audio Rate by 20%'),
                     accelerator: 'CmdOrCtrl+-',
                     click: function(item, focusedWindow) {
                         focusedWindow && focusedWindow.webContents.executeJavaScript(
@@ -187,31 +187,31 @@
             label: "&" + name,
             submenu: [
                 {
-                    label: _('About') + " " + name,
+                    label: ('About') + " " + name,
                     role: 'about'
                 },
                 {
                     type: 'separator'
                 },
                 {
-                    label: _('Hide') + " " + name,
+                    label: ('Hide') + " " + name,
                     accelerator: 'Command+H',
                     role: 'hide'
                 },
                 {
-                    label: _('Hide Others'),
+                    label: ('Hide Others'),
                     accelerator: 'Command+Alt+H',
                     role: 'hideothers'
                 },
                 {
-                    label: _('Show All'),
+                    label: ('Show All'),
                     role: 'unhide'
                 },
                 {
                     type: 'separator'
                 },
                 {
-                    label: _('Quit'),
+                    label: ('Quit'),
                     accelerator: 'Command+Q',
                     click: () => { require('electron').app.quit() }
                 },
@@ -223,7 +223,7 @@
                 type: 'separator'
             },
             {
-                label: _('Bring All to Front'),
+                label: ('Bring All to Front'),
                 role: 'front'
             }
         );
@@ -232,11 +232,11 @@
             label: '&File',
             submenu: [
                 {
-                    label: _('About'),
+                    label: ('About'),
                     click: () => { global.about.init(); }
                 },
                 {
-                    label: _('Quit'),
+                    label: ('Quit'),
                     accelerator: 'Ctrl+Q',
                     click: () => { require('electron').app.quit() }
                 },

@@ -19,7 +19,9 @@
     var globalShortcut = require('electron').globalShortcut;
     var ContextMenu = require('electron-context-menu');
 
-    const isAlreadyRunning = app.makeSingleInstance((argv, workingDir) => {
+    app.requestSingleInstanceLock();
+
+    const isAlreadyRunning = app.on('second-instance', () => {
         if (whatsApp.window) {
             if (whatsApp.window.isMinimized()) {
                 whatsApp.window.restore();
@@ -30,7 +32,7 @@
         var groupLinkOpenRequested = null;
         if (argv.length > 1) {
             for(var i = 0; i < argv.length; i++) {
-                if (argv[i].indexOf("https://chat.whatsapp.com") >= 0) {
+                if (argv[i].indexOf("https://web.whatsapp.com") >= 0) {
                     groupLinkOpenRequested = argv[i];
                     log.info("Opening a group link: " + groupLinkOpenRequested);
                     break;
@@ -52,7 +54,7 @@
     });
 
     if (isAlreadyRunning) {
-        app.quit();
+        app.focus();
     }
 
     app.setAppUserModelId("it.enrico204.whatsapp-desktop");
@@ -79,35 +81,6 @@
                 break;
             }
         }
-    }
-
-    var supportedLocales = ['en_US', 'it_IT'];
-
-    global.gt = new nodeGettext();
-    for (var i in supportedLocales) {
-        var loc = supportedLocales[i];
-        var dir = process.resourcesPath+"/app/locale/"+loc+"/messages.po";
-        if (!fileSystem.existsSync(dir)) {
-          dir = "./app/locale/"+loc+"/messages.po";
-        }
-        log.info("Loading locale " + loc);
-        gt.addTranslations(loc, 'messages', gettextParser.po.parse(fileSystem.readFileSync(dir)));
-    }
-    gt.setLocale("en_US");
-    gt.setTextDomain("messages");
-    global._ = function (t) {
-        return gt.gettext(t);
-    }
-
-    // Setting default language to system language if available
-    var syslang = (process.env.LC_ALL != undefined ? process.env.LC_ALL :
-        (process.env.LANG != undefined ? process.env.LANG :
-            (process.env.LC_MESSAGES != undefined ? process.env.LC_MESSAGES : 'en-US')));
-    if (supportedLocales.indexOf(syslang.split(".")[0]) >= 0) {
-        log.info("Setting locale " + syslang.split(".")[0]);
-        gt.setLocale(syslang.split(".")[0]);
-    } else {
-        log.warn("No supported locale found, defaulting to en_US");
     }
 
     global.autolauncher = new AutoLaunch({ name: app.getName() });
@@ -425,7 +398,7 @@
 
             // Setting up a trayicon context menu
             whatsApp.trayContextMenu = AppMenu.buildFromTemplate([
-                {label: _('Show'),
+                {label: ('Show'),
                 visible: config.get("startminimized"), // Hide this option on start
                 click: function() {
                     whatsApp.window.show();
@@ -434,14 +407,14 @@
                     whatsApp.window.setAlwaysOnTop(false);
                 }},
 
-                {label: _('Hide'),
+                {label: ('Hide'),
                 visible: !config.get("startminimized"), // Show this option on start
                 click: function() {
                     whatsApp.window.hide();
                 }},
 
                 // Quit WhatsApp
-                {label: _('Quit'), click: function() {
+                {label: ('Quit'), click: function() {
                     app.quit();
                 }}
             ]);
