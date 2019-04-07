@@ -7,12 +7,10 @@
     },
     "version": "1.0.0",
     "repository": "https://github.com/cyfrost/Whatsapp-Desktop.git",
-    "description": "WhatsApp desktop client, built with electron.js",
+    "description": "WhatsApp Desktop for Linux",
     "main": "main.js",
     "scripts": {
-        "start": "cd app && electron .",
-        "build:win": "electron-packager ./app \"WhatsApp\" --out=dist --package-manager=npm --platform=win32 --arch=x64 --icon=assets/win/whatsapp.ico",
-        "build:linux": "electron-packager ./app \"WhatsApp\" --out=dist --package-manager=npm --platform=linux --arch=x64 --icon=assets/win/whatsapp.ico"
+        "start": "cd app && electron ."
     },
     "devDependencies": {
         "electron": "^4.1.4",

@@ -103,57 +103,6 @@
       if (config.get("maximized") && config.get("startminimized") != true) {
         whatsApp.window.maximize();
       }
-      whatsApp.window.webContents.on('dom-ready', function (event, two) {
-        var fontSize = config.get("fontSize");
-        fontSize = (fontSize == undefined) ? "normal" : fontSize;
-        var fontCSS = (fontSize != "normal") ? "font-size:" + fontSize + " !important;" : "";
-        this.insertCSS('* { text-rendering: optimizeSpeed !important; -webkit-font-smoothing: subpixel-antialiased !important; ' +
-          fontCSS + '}');
-
-        var imgpath = config.get("background-image");
-        if (imgpath != undefined) {
-          var img = new Buffer(fileSystem.readFileSync(imgpath)).toString('base64');
-          var opacity = parseFloat(config.get("background-opacity")) / 100.0;
-          var mime = (imgpath.endsWith(".jpg") || imgpath.endsWith(".jpeg")) ? "image/jpg" :
-            ((imgpath.endsWith(".png") ? "image/png" : ((imgpath.endsWith(".gif") ? "image/gif" : ""))));
-          this.insertCSS(".pane-chat-tile { background-image: url(data:" + mime + ";base64," + img + ") !important; background-size: cover !important; opacity: " +
-            opacity + " !important; max-width: 100% !important; }");
-        }
-
-        var noAvatar = '.chat-avatar img { display: none !important; }';
-        var noPreview = '.chat-secondary .chat-status{z-index: -999;}';
-
-        var thumbSize = '.image-thumb { width: ' + config.currentSettings.thumbSize + 'px  !important;' +
-          'height: ' + config.currentSettings.thumbSize + 'px !important;}' +
-          '.image-thumb img.image-thumb-body { width: auto !important;' +
-          'height: ' + config.currentSettings.thumbSize + 'px !important;}';
-
-        var blurImages = "div.message-in img, div.message-out img { filter: contrast(25%) blur(8px) grayscale(75%); } \n \
-                   div.message-in:hover img, div.message-out:hover img { filter: none; }";
-
-        if (config.currentSettings.hideAvatars) {
-          this.insertCSS(noAvatar);
-        }
-        if (config.currentSettings.hidePreviews) {
-          this.insertCSS(noPreview);
-        }
-
-        if (config.currentSettings.blurImages) {
-          this.insertCSS(blurImages);
-        }
-
-        if (config.currentSettings.thumbSize) {
-          this.insertCSS(thumbSize);
-        }
-        if (config.get("customcss") != undefined) {
-          try {
-            this.insertCSS(fileSystem.readFileSync(config.get("customcss"), "utf-8"));
-            log.info("Loaded CSS file: " + config.get("customcss"));
-          } catch (e) {
-            log.error("CSS error: " + e);
-          }
-        }
-      });
 
       if (config.get("useProxy")) {
         var session = whatsApp.window.webContents.session;
