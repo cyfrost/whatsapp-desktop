@@ -1,5 +1,13 @@
 DIST_DIR=dist
 
+DEPENDENCIES = node npm awk egrep sed
+K := $(foreach exec,$(DEPENDENCIES), $(if $(shell which "$(exec)"),dependencies_ok,$(error Command Not Found: "$(exec)")))
+
+# Default target executed on error.
+error:
+	@printf "\nUnknown target (Makefile error).\n\nAbort.\n\n"
+	@exit 2
+
 .PHONY: env
 env:
 	@sudo npm install -g npm-check-updates && ncu -u && npm install && cd app && ncu -u && npm install && echo -en "\nAll development dependencies have been installed successfully!\n\n"

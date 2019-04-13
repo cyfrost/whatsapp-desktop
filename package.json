@@ -14,7 +14,7 @@
     },
     "devDependencies": {
         "electron": "^4.1.4",
-        "npm-check-updates": "^3.1.4",
+        "npm-check-updates": "^3.1.7",
         "electron-installer-flatpak": "^0.8.0",
         "electron-packager": "^13.1.1"
     },
