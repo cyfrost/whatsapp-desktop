@@ -1,19 +1,19 @@
-(function (scope) {
+(function () {
   "use strict";
 
-  var app = require('electron').app;
-  var AppMenu = require('electron').Menu;
-  var MenuItem = require('electron').MenuItem;
-  var AppTray = require('electron').Tray;
-  var fileSystem = require('fs');
-  var NativeImage = require('electron').nativeImage;
-  var BrowserWindow = require('electron').BrowserWindow;
-  var AutoLaunch = require("auto-launch");
-  var log = require("electron-log");
-  var join = require('path').join;
-  var pjson = require('./package.json');
-  var globalShortcut = require('electron').globalShortcut;
-  var ContextMenu = require('electron-context-menu');
+  let app = require('electron').app;
+  let AppMenu = require('electron').Menu;
+  let MenuItem = require('electron').MenuItem;
+  let AppTray = require('electron').Tray;
+  let fileSystem = require('fs');
+  let NativeImage = require('electron').nativeImage;
+  let BrowserWindow = require('electron').BrowserWindow;
+  let AutoLaunch = require("auto-launch");
+  let log = require("electron-log");
+  let join = require('path').join;
+  let pjson = require('./package.json');
+  let globalShortcut = require('electron').globalShortcut;
+  let ContextMenu = require('electron-context-menu');
 
   app.requestSingleInstanceLock();
 
@@ -370,7 +370,7 @@
         whatsApp.window.show();
       }
 
-      whatsApp.window.on('move', (e, evt) => {
+      whatsApp.window.on('move', () => {
         config.set("posX", whatsApp.window.getBounds().x);
         config.set("posY", whatsApp.window.getBounds().y);
         config.set("width", whatsApp.window.getBounds().width);
@@ -378,7 +378,7 @@
         config.saveConfiguration();
       });
 
-      whatsApp.window.on('resize', (e, evt) => {
+      whatsApp.window.on('resize', () => {
         config.set("posX", whatsApp.window.getBounds().x);
         config.set("posY", whatsApp.window.getBounds().y);
         config.set("width", whatsApp.window.getBounds().width);
@@ -603,7 +603,7 @@
       global.whatsApp.setNormalTray();
     }
   });
-  ipcMain.on('notificationClick', (event, arg) => {
+  ipcMain.on('notificationClick', () => {
     global.whatsApp.window.show();
     global.whatsApp.window.setAlwaysOnTop(true);
     global.whatsApp.window.focus();
