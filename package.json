@@ -1,0 +1,40 @@
+{
+    "name": "WhatsApp",
+    "author": {
+        "name": "Cyrus Frost",
+        "email": "cyrus.frost@hotmail.com",
+        "url": "https://github.com/cyfrost/whatsapp-desktop"
+    },
+    "license": "MIT",
+    "repository": "https://github.com/cyfrost/Whatsapp-Desktop.git",
+    "description": "WhatsApp Desktop client for Windows and Linux",
+    "main": "src/main.js",
+    "postinstall": "electron-builder install-app-deps",
+    "devDependencies": {
+        "npm-check-updates": "^3.1.8",
+        "electron-installer-flatpak": "^0.8.0",
+        "electron-packager": "^13.1.1",
+        "electron-builder": "^20.39.0"
+    },
+    "build": {
+        "appId": "com.cyfrost.whatsapp",
+        "directories": {
+            "app": "src"
+        },
+        "win": {
+            "target": "nsis",
+            "icon": "build/icons/icon_win32.ico"
+        },
+        "linux": {
+            "target": [
+                "deb",
+                "rpm",
+                "AppImage",
+                "snap",
+                "pacman"
+            ],
+            "category": "Utility",
+            "icon": "build/icons/icon_linux.ico"
+        }
+    }
+}

@@ -197,7 +197,7 @@
     createMenu() {
       log.info("Creating menu");
       whatsApp.menu =
-        AppMenu.buildFromTemplate(require('./menu'));
+        AppMenu.buildFromTemplate(require('./AppMenu'));
       AppMenu.setApplicationMenu(whatsApp.menu);
     },
 
@@ -235,18 +235,18 @@
       }
       if (global.whatsApp.isWarningTrayIcon() && !global.whatsApp.isNewMessageIcon()) {
         log.info("Setting tray icon to warning");
-        whatsApp.tray.setImage(__dirname + '/assets/icon/iconWarning.png');
+        whatsApp.tray.setImage(__dirname + '/assets/icons/iconWarning.png');
       }
       if (global.whatsApp.isWarningTrayIcon() && global.whatsApp.isNewMessageIcon()) {
         log.info("Setting tray icon to warning with messages");
-        whatsApp.tray.setImage(__dirname + '/assets/icon/iconWarningWithMsg.png');
+        whatsApp.tray.setImage(__dirname + '/assets/icons/iconWarningWithMsg.png');
       }
       if (!global.whatsApp.isWarningTrayIcon() && global.whatsApp.isNewMessageIcon()) {
         log.info("Setting tray icon to normal with messages");
-        whatsApp.tray.setImage(__dirname + '/assets/icon/iconWithMsg.png');
+        whatsApp.tray.setImage(__dirname + '/assets/icons/iconWithMsg.png');
       } else {
         log.info("Setting tray icon to normal");
-        whatsApp.tray.setImage(__dirname + '/assets/icon/icon.png');
+        whatsApp.tray.setImage(__dirname + '/assets/icons/icon.png');
       }
       log.info("Mask value: " + global.whatsApp.iconStatus);
       global.whatsApp.oldIconStatus = global.whatsApp.iconStatus;
@@ -254,8 +254,8 @@
 
     createTray() {
       log.info("Creating tray icon");
-      var trayImg = __dirname + '/assets/img/trayTemplate.png';
-      trayImg = __dirname + '/assets/icon/icon.png';
+      var trayImg = __dirname + '/assets/etc/trayTemplate.png';
+      trayImg = __dirname + '/assets/icons/icon.png';
       whatsApp.tray = new AppTray(trayImg);
 
       // Setting up a trayicon context menu
@@ -333,7 +333,7 @@
         "title": "WhatsApp",
         "show": false,
         "autoHideMenuBar": config.get("autoHideMenuBar") == true,
-        "icon": __dirname + "/assets/icon/icon.png",
+        "icon": __dirname + "/assets/icons/icon.png",
         "webPreferences": {
           "nodeIntegration": false,
           "preload": join(__dirname, 'js', 'injected.js')
