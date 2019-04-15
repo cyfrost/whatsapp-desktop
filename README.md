@@ -4,24 +4,24 @@ WhatsApp desktop client for Linux and Windows, built using electron.js
 
 # Features
 
-* Native notifications
-* System tray icon
-* Open links in browser
-* Badge with the number of notifications in the dock/taskbar
-* Dock icon bounces when a new message is received
-* Focus on contact search input via WIN+F
-* Phone info window (s/w versions, battery status, etc)
-* Auto-launch on login
-* Start minimized to tray icon
-* Logging system (log to console and *userData*/log.log)
-* Apply custom CSS stylesheet
-* Auto-hide menu bar (Windows, Linux)
-* Disabling GPU rendering (useful when dealing with bugged video drivers)
-* A couple of things can be configured:
-  * Toggle avatar visibility
-  * Toggle preview of the messages visibility
-  * Set the size for the media thumbs
-  * Proxy settings connect to WhatsApp web
+- Native notifications
+- System tray icon
+- Open links in browser
+- Badge with the number of notifications in the dock/taskbar
+- Dock icon bounces when a new message is received
+- Focus on contact search input via WIN+F
+- Phone info window (s/w versions, battery status, etc)
+- Auto-launch on login
+- Start minimized to tray icon
+- Logging system (log to console and _userData_/log.log)
+- Apply custom CSS stylesheet
+- Auto-hide menu bar (Windows, Linux)
+- Disabling GPU rendering (useful when dealing with bugged video drivers)
+- A couple of things can be configured:
+  - Toggle avatar visibility
+  - Toggle preview of the messages visibility
+  - Set the size for the media thumbs
+  - Proxy settings connect to WhatsApp web
 
 # Download
 
@@ -51,4 +51,4 @@ They're created in the `dist/` directory of the project root.
 
 # Contributing
 
-No rules for contributing, send a PR :)
+No rules for contributing, Just send a PR :)
