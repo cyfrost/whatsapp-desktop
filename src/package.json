@@ -11,7 +11,7 @@
     "description": "WhatsApp Desktop client for Windows and Linux",
     "main": "main.js",
     "scripts": {
-        "start": "cd src && electron ."
+        "start": "electron ."
     },
     "devDependencies": {
         "electron": "^4.1.4",
@@ -38,9 +38,9 @@
         "process-nextick-args": "^2.0.0",
         "util-deprecate": "^1.0.2",
         "auto-launch": "^5.0.5",
-        "electron-context-menu": "^0.11.0",
+        "electron-context-menu": "^0.12.0",
         "electron-log": "^3.0.5",
-        "gettext-parser": "^3.1.1",
+        "gettext-parser": "^4.0.0",
         "node-gettext": "^2.0.0",
         "node-notifier": "^5.4.0",
         "request": "^2.88.0"

@@ -10,7 +10,7 @@ error:
 
 .PHONY: env
 env:
-	@sudo npm install -g npm-check-updates && ncu -u && npm install && cd app && ncu -u && npm install && printf "\nAll development dependencies have been installed successfully!\n\n"
+	@sudo npm install -g npm-check-updates && ncu -u && npm install && ncu -u && npm install && printf "\nAll development dependencies have been installed successfully!\n\n"
 
 .PHONY: build
 build:
