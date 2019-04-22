@@ -14,6 +14,10 @@
   let pjson = require('./package.json');
   let globalShortcut = require('electron').globalShortcut;
   let ContextMenu = require('electron-context-menu');
+  let session = require('electron').session;
+
+
+
 
   app.requestSingleInstanceLock();
 
@@ -189,6 +193,7 @@
       global.whatsApp.oldIconStatus = 0;
       global.whatsApp.newVersion = null;
 
+
       whatsApp.clearCache();
       whatsApp.openWindow();
       config.applyConfiguration();
@@ -315,6 +320,7 @@
       log.info("Clearing cache");
       try {
         fileSystem.unlinkSync(app.getPath('userData') + '/Application Cache/Index');
+        log.info("Cache Cleared")
       } catch (e) {
         log.warn("Error clearing cache: " + e);
       }
@@ -340,13 +346,22 @@
         }
       });
 
+      whatsApp.window.on('closed', () => {
+        whatsApp.window = null
+      });
+
+      
       ContextMenu({
         window: whatsApp.window
       });
-
       var fakeUserAgent = {
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3641.0 Safari/537.36'
       }
+
+
+      var sess = whatsApp.window.webContents.session;
+      //sess.clearStorageData(() => log.info("am here, data clearered."));
+
 
       whatsApp.window.loadURL('https://web.whatsapp.com', fakeUserAgent);
 
@@ -439,6 +454,7 @@
 
       whatsApp.window.on('close', onlyLinux((e) => {
         if (whatsApp.tray == undefined) {
+          whatsApp.window = null
           app.quit();
         } else if (whatsApp.window.forceClose !== true) {
           e.preventDefault();
@@ -674,7 +690,16 @@
     }
   }
 
+  function spoofGlobalUserAgent(){
+    session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+      details.requestHeaders['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3641.0 Safari/537.36';
+      callback({ cancel: false, requestHeaders: details.requestHeaders });
+    });
+  }
+
+
   app.on('ready', () => {
+    spoofGlobalUserAgent();
     whatsApp.init();
     // setting of globalShortcut
     if (config.get("globalshortcut") == true) {
