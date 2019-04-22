@@ -348,16 +348,8 @@ global.whatsApp = {
     ContextMenu({
       window: whatsApp.window
     });
-    var fakeUserAgent = {
-      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3641.0 Safari/537.36'
-    }
 
-
-    var sess = whatsApp.window.webContents.session;
-    //sess.clearStorageData(() => log.info("am here, data clearered."));
-
-
-    whatsApp.window.loadURL('https://web.whatsapp.com', fakeUserAgent);
+    whatsApp.window.loadURL('https://web.whatsapp.com');
 
     whatsApp.window.webContents.on('did-finish-load', function () {
 
