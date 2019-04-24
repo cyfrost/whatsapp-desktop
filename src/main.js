@@ -1,17 +1,20 @@
-let app = require('electron').app;
-let AppMenu = require('electron').Menu;
-let MenuItem = require('electron').MenuItem;
-let AppTray = require('electron').Tray;
+import {
+  app,
+  BrowserWindow,
+  Tray,
+  Menu,
+  MenuItem,
+  NativeImage,
+  globalShortcut,
+  session
+} from 'electron';
+
 let fileSystem = require('fs');
-let NativeImage = require('electron').nativeImage;
-let BrowserWindow = require('electron').BrowserWindow;
 let AutoLaunch = require("auto-launch");
 let log = require("electron-log");
 let join = require('path').join;
 let pjson = require('./package.json');
-let globalShortcut = require('electron').globalShortcut;
 let ContextMenu = require('electron-context-menu');
-let session = require('electron').session;
 
 app.requestSingleInstanceLock();
 
@@ -196,8 +199,8 @@ global.whatsApp = {
   createMenu() {
     log.info("Creating menu");
     whatsApp.menu =
-      AppMenu.buildFromTemplate(require('./AppMenu'));
-    AppMenu.setApplicationMenu(whatsApp.menu);
+      Menu.buildFromTemplate(require('./AppMenu'));
+    Menu.setApplicationMenu(whatsApp.menu);
   },
 
   setNormalTray() {
@@ -255,10 +258,10 @@ global.whatsApp = {
     log.info("Creating tray icon");
     var trayImg = __dirname + '/assets/etc/trayTemplate.png';
     trayImg = __dirname + '/assets/icons/icon.png';
-    whatsApp.tray = new AppTray(trayImg);
+    whatsApp.tray = new Tray(trayImg);
 
     // Setting up a trayicon context menu
-    whatsApp.trayContextMenu = AppMenu.buildFromTemplate([{
+    whatsApp.trayContextMenu = Menu.buildFromTemplate([{
         label: ('Show'),
         visible: config.get("startminimized"), // Hide this option on start
         click: function () {
@@ -506,7 +509,7 @@ global.settings = {
   },
 
   createMenu() {
-    settings.menu = new AppMenu();
+    settings.menu = new Menu();
     settings.menu.append(new MenuItem({
       label: "close",
       visible: false,
@@ -624,7 +627,7 @@ global.phoneinfo = {
   },
 
   createMenu() {
-    phoneinfo.menu = new AppMenu();
+    phoneinfo.menu = new Menu();
     phoneinfo.menu.append(new MenuItem({
       label: "close",
       visible: false,
