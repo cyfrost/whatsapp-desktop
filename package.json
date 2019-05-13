@@ -7,7 +7,7 @@
     },
     "license": "MIT",
     "repository": "https://github.com/cyfrost/Whatsapp-Desktop.git",
-    "description": "WhatsApp Desktop client for Windows and Linux",
+    "description": "WhatsApp Desktop client for Windows and Linux built with Electron.js",
     "main": "src/main.js",
     "postinstall": "electron-builder install-app-deps",
     "devDependencies": {
@@ -17,7 +17,7 @@
         "electron-builder": "^20.40.2"
     },
     "build": {
-        "appId": "com.cyfrost.whatsapp",
+        "appId": "com.cyfrost.WhatsApp",
         "directories": {
             "app": "src"
         },
