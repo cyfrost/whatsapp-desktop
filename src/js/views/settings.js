@@ -28,7 +28,7 @@ var SettingsView = {
  },
 
  init() {
-  document.title = _("Settings");
+  document.title = ("Settings");
 
   $("#custombackground_enable").attr("checked", config.get("background-image") != undefined);
   if (config.get("background-image") != undefined) {
