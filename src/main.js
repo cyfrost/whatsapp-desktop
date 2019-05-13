@@ -13,19 +13,22 @@ let globalShortcut = require('electron').globalShortcut;
 let ContextMenu = require('electron-context-menu');
 let session = require('electron').session;
 
-app.requestSingleInstanceLock();
+const gotTheLock = app.requestSingleInstanceLock();
 
-const isAlreadyRunning = app.on('second-instance', () => {
-  if (whatsApp.window) {
-    if (whatsApp.window.isMinimized()) {
-      whatsApp.window.restore();
+if (!gotTheLock) {
+  app.quit();
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (whatsApp.window) {
+      if (whatsApp.window.isMinimized()){
+        whatsApp.window.restore();
+        whatsApp.window.focus();
+      }
+      whatsApp.window.show();
+      whatsApp.window.focus();
     }
-    whatsApp.window.show();
-  }
-});
-
-if (isAlreadyRunning) {
-  app.focus();
+  });
 }
 
 if (process.argv.indexOf("--debug-log") >= 0) {
