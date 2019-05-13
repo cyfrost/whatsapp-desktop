@@ -11,11 +11,12 @@ error:
 
 .PHONY: env
 env:
-	@sudo npm install -g npm-check-updates && ncu -u && npm install && cd src && ncu -u && npm install && printf "\nAll development dependencies have been installed successfully!\n\n"
+	@npm install -g npm-check-updates && ncu -u && npm install && cd src && ncu -u && npm install && printf "\nAll development dependencies have been installed successfully!\n\n"
 
 .PHONY: update
 update:
 	@ncu -u && npm install && cd src && ncu -u && npm install && printf "\nAll development dependencies have been updated successfully!\n\n"
+
 
 .PHONY: build-rpm
 build-rpm:
@@ -25,6 +26,18 @@ build-rpm:
 build-deb:
 	@./node_modules/.bin/electron-builder --linux deb
 
+.PHONY: build-snap
+build-snap:
+	@./node_modules/.bin/electron-builder --linux snap
+
+.PHONY: build-pacman
+build-pacman:
+	@./node_modules/.bin/electron-builder --linux pacman
+
+.PHONY: build-appimage
+build-appimage:
+	@./node_modules/.bin/electron-builder --linux appImage
+
 .PHONY: build-win
 build-win:
 	@./node_modules/.bin/electron-builder --win
@@ -33,9 +46,13 @@ build-win:
 build-linux:
 	@./node_modules/.bin/electron-builder --linux
 
+.PHONY: build-macos
+build-macos:
+	@./node_modules/.bin/electron-builder --macos
+
 .PHONY: build-all
 build-all:
-	@./node_modules/.bin/electron-builder
+	@./node_modules/.bin/electron-builder --linux --windows
 
 .PHONY: run
 run:
