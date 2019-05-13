@@ -11,23 +11,26 @@
   <link rel="stylesheet" href="../css/settings.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
   <script src="../js/views/about.js"></script>
-  <title>About</title>
+  <title>About WhatsApp</title>
 </head>
 <body>
+  <br>
+  <center>
+      <img src="../assets/icons/icon@2x.png" alt="WhatsApp" style="width:100px;height:100px;">
+      <img src="../assets/icons/mascot.png" alt="Linux" style="width:75px;height:80px; margin-right: 5px;">
+      <img src="../assets/icons/ms.png" alt="Microsoft" style="width:60px;height:60px;">
+  </center>
   <main class="main-container">
-    <header>
-      <h4 class="teal-text text-lighten-1"><script> document.write(_("Settings")); </script></h4>
-    </header>
-
-    <div id="settings-wrapper">
-        <p>WhatsApp desktop client, based on the official WhatsApp web app. Build with Electron.</p>
-        <p>This is <b>NOT</b> an official product. This project does not attempt to reverse engineer the WhatsApp API or attempt to
-            reimplement any part of the WhatsApp client. Any communication between the user and WhatsApp servers is handled by
-            official WhatsApp Web itself; this is just a native wrapper for WhatsApp Web, like a browser.</p>
-        <p>App version: <span id="appversion"></span></p>
-        <p><b><span id="appupdates"></span></b></p>
-        <p>Website: <a href="https://github.com/Enrico204/Whatsapp-Desktop" target="_blank">https://github.com/Enrico204/Whatsapp-Desktop</a></p>
-    </div>
+      <h5 class="teal-text text-lighten-0"  style="padding-bottom: 10px; border-bottom:  0.5px solid #D3D3D3; border-width: thin;">About WhatsApp (v<span id="app_version_header"></span>)</h5>
+      <div>
+          <p>WhatsApp desktop client for Windows and Linux built using Electron.js framework. This app is an open-source wrapper implementation of the official WhatsApp Web App.</p>
+          <p>Disclaimer: This app is community made and not an official product.</p>
+          <p><p class="teal-text text-lighten-0" style="font-size: 18px; font-weight: 400; padding-top: 5px; padding-bottom: 5px; border-bottom:  0.3px solid #D3D3D3; border-width: thin;">Credits</p><p>Original Author: Enrico (<a href='https://github.com/enrico204' target="_blank">https://github.com/enrico204</a>)<br>Current Maintainer: Cyrus Frost (<a href='https://github.com/cyfrost' target="_blank">https://github.com/cyfrost</a>)<br>GitHub
+              Repository: visit (
+              <a href='https://github.com/cyfrost/whatsapp-desktop' target="_blank">https://github.com/cyfrost/whatsapp-desktop</a>)<br>Get App Updates: visit (<a href="https://github.com/cyfrost/whatsapp-desktop/releases" target="_blank">https://github.com/cyfrost/whatsapp-desktop/releases</a>)</p>
+          
+          <p class="teal-text text-lighten-0" style="font-size: 18px; font-weight: 400; padding-top: 5px; padding-bottom: 5px; border-bottom:  0.3px solid #D3D3D3; border-width: thin;">Debug Info</p><p>App version: v<span id="app_version"></span><br> Electron Runtime: v<span id="electron_version"></span><br> Node Runtime: v<span id="node_version"></span><br> Chromium Engine: v<span id="chromium_version"></span></p>
+      </div>
   </main>
 </body>
 </html>

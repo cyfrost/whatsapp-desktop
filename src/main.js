@@ -569,8 +569,8 @@ global.about = {
 
   openWindow() {
     about.window = new BrowserWindow({
-      "width": 600,
-      "height": 450,
+      "width": 570,
+      "height": 680,
       "resizable": true,
       "center": true,
       "frame": true,
