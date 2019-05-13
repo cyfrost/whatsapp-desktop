@@ -11,10 +11,10 @@
     "main": "src/main.js",
     "postinstall": "electron-builder install-app-deps",
     "devDependencies": {
-        "npm-check-updates": "^3.1.8",
+        "npm-check-updates": "^3.1.9",
         "electron-installer-flatpak": "^0.8.0",
         "electron-packager": "^13.1.1",
-        "electron-builder": "^20.39.0"
+        "electron-builder": "^20.40.2"
     },
     "build": {
         "appId": "com.cyfrost.whatsapp",
@@ -30,7 +30,6 @@
                 "deb",
                 "rpm",
                 "AppImage",
-                "snap",
                 "pacman"
             ],
             "category": "Internet",

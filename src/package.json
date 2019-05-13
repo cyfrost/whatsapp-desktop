@@ -14,8 +14,8 @@
         "start": "electron ."
     },
     "devDependencies": {
-        "electron": "^5.0.0",
-        "npm-check-updates": "^3.1.8",
+        "electron": "^5.0.1",
+        "npm-check-updates": "^3.1.9",
         "electron-installer-flatpak": "^0.8.0",
         "electron-packager": "^13.1.1"
     },
@@ -31,7 +31,7 @@
         "process-nextick-args": "^2.0.0",
         "util-deprecate": "^1.0.2",
         "auto-launch": "^5.0.5",
-        "electron-context-menu": "^0.12.0",
+        "electron-context-menu": "^0.12.1",
         "electron-window-state": "^5.0.3",
         "electron-log": "^3.0.5",
         "gettext-parser": "^4.0.0",
