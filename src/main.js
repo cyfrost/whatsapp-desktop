@@ -268,7 +268,6 @@ global.whatsApp = {
           whatsApp.window.setAlwaysOnTop(false);
         }
       },
-
       {
         label: ('Hide'),
         visible: !config.get("startminimized"), // Show this option on start
@@ -276,8 +275,20 @@ global.whatsApp = {
           whatsApp.window.hide();
         }
       },
-
-      // Quit WhatsApp
+      {
+        type: "separator"
+      },
+      {
+        label: "Options",
+        click: global.settings.init
+      },
+      {
+        type: "separator"
+      },
+      {
+        label: "About",
+        click: global.about.init
+      },
       {
         label: ('Quit'),
         click: function () {
