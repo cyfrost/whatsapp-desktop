@@ -12,13 +12,14 @@ let pjson = require('./package.json');
 let globalShortcut = require('electron').globalShortcut;
 let ContextMenu = require('electron-context-menu');
 let session = require('electron').session;
+const { ipcMain } = require('electron');
 
 const gotTheLock = app.requestSingleInstanceLock();
 
 if (!gotTheLock) {
   app.quit();
 } else {
-  app.on('second-instance', (event, commandLine, workingDirectory) => {
+  app.on('second-instance', () => {
     // Someone tried to run a second instance, we should focus our window.
     if (whatsApp.window) {
       if (whatsApp.window.isMinimized()){
@@ -30,6 +31,14 @@ if (!gotTheLock) {
     }
   });
 }
+
+
+let onlineStatusWindow
+
+app.on('ready', () => {
+  onlineStatusWindow = new BrowserWindow({ width: 0, height: 0, show: false, webPreferences: {nodeIntegration: true} });
+  onlineStatusWindow.loadURL(`file://${__dirname}/online-status.html`)
+})
 
 if (process.argv.indexOf("--debug-log") >= 0) {
   log.transports.file.level = 'debug';
@@ -603,9 +612,7 @@ global.about = {
   }
 };
 
-const {
-  ipcMain
-} = require('electron');
+
 ipcMain.on('phoneinfoupdate', (event, arg) => {
   global.phoneinfo.infos = arg;
   if (arg.info != "NORMAL") {
@@ -620,6 +627,13 @@ ipcMain.on('notificationClick', () => {
   global.whatsApp.window.focus();
   global.whatsApp.window.setAlwaysOnTop(false);
 });
+ipcMain.on('online-status-changed', (event, status) => {
+  log.info("Online Status Changed")
+  log.info(status)
+  if (status === "online"){
+    global.whatsApp.window.reload();
+  }
+})
 
 global.phoneinfo = {
   init() {
