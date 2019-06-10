@@ -1,6 +1,6 @@
 {
     "name": "WhatsApp",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "WhatsApp Desktop client for Windows and Linux",
     "main": "main.js",
     "author": {
@@ -14,8 +14,8 @@
         "start": "electron ."
     },
     "devDependencies": {
-        "electron": "^5.0.1",
-        "npm-check-updates": "^3.1.9",
+        "electron": "^5.0.3",
+        "npm-check-updates": "^3.1.10",
         "electron-installer-flatpak": "^0.8.0",
         "electron-packager": "^13.1.1"
     },
@@ -33,7 +33,7 @@
         "auto-launch": "^5.0.5",
         "electron-context-menu": "^0.12.1",
         "electron-window-state": "^5.0.3",
-        "electron-log": "^3.0.5",
+        "electron-log": "^3.0.6",
         "gettext-parser": "^4.0.0",
         "node-gettext": "^2.0.0",
         "node-notifier": "^5.4.0",
