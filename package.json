@@ -11,10 +11,10 @@
     "main": "src/main.js",
     "postinstall": "electron-builder install-app-deps",
     "devDependencies": {
-        "npm-check-updates": "^3.1.10",
+        "npm-check-updates": "^3.1.18",
         "electron-installer-flatpak": "^0.8.0",
-        "electron-packager": "^13.1.1",
-        "electron-builder": "^20.43.0"
+        "electron-packager": "^14.0.1",
+        "electron-builder": "^21.0.15"
     },
     "build": {
         "appId": "com.cyfrost.WhatsApp",
