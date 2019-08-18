@@ -11,11 +11,11 @@ error:
 
 .PHONY: env
 env:
-	@npm install -g npm-check-updates && ncu -u && npm install && cd src && ncu -u && npm install && printf "\nAll development dependencies have been installed successfully!\n\n"
+	@yarn && cd src && yarn && printf "\nAll development dependencies have been installed successfully!\n\n"
 
 .PHONY: update
 update:
-	@ncu -u && npm install && cd src && ncu -u && npm install && printf "\nAll development dependencies have been updated successfully!\n\n"
+	@ncu -u && yarn && cd src && ncu -u && yarn && printf "\nAll development dependencies have been installed successfully!\n\n"
 
 
 .PHONY: build-rpm
