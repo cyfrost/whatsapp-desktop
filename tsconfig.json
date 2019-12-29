@@ -1,0 +1,11 @@
+{
+  "include": ["**/*"],
+  "rootDir": ".",
+  "compilerOptions": {
+    "outDir": "dist-js",
+    "target": "esnext",
+    "allowJs": true,
+    "module": "commonjs",
+    "lib": ["esnext", "dom", "dom.iterable"]
+  }
+}

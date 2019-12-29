@@ -4,6 +4,7 @@ Thumbs.db
 dist
 npm-debug.log
 node_modules
+dist-js
 electron-*
 *.mo
 .pc

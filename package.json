@@ -1,42 +1,69 @@
 {
     "name": "WhatsApp",
-    "author": {
-        "name": "Cyrus Frost",
-        "email": "cyrus.frost@hotmail.com",
-        "url": "https://github.com/cyfrost/whatsapp-desktop"
-    },
+    "version": "2.0.0",
+    "description": "WhatsApp desktop client for Windows and Linux",
+    "main": "dist-js/app.js",
+    "author": "Cyrus Frost <cyrus.frost@hotmail.com>",
     "license": "MIT",
-    "repository": "https://github.com/cyfrost/Whatsapp-Desktop.git",
-    "description": "WhatsApp Desktop client for Windows and Linux built with Electron.js",
-    "main": "src/main.js",
-    "postinstall": "electron-builder install-app-deps",
+    "private": true,
+    "repository": "cyfrost/whatsapp-desktop",
+    "scripts": {
+        "start": "tsc && electron ."
+    },
+    "dependencies": {
+        "@types/node": "12.12.21",
+        "is-online": "^8.2.1",
+        "process-nextick-args": "^2.0.1",
+        "util-deprecate": "^1.0.2",
+        "auto-launch": "^5.0.5",
+        "electron-window-state": "^5.0.3",
+        "gettext-parser": "^4.0.2",
+        "node-gettext": "^2.0.0",
+        "node-notifier": "^6.0.0",
+        "request": "^2.88.0",
+        "electron-context-menu": "^0.15.1",
+        "electron-debug": "^3.0.1",
+        "electron-dl": "^2.0.0",
+        "electron-log": "^4.0.0",
+        "electron-settings": "^3.2.0",
+        "electron-store": "5.1.0",
+        "electron-updater": "^4.2.0",
+        "electron-util": "^0.13.1",
+        "element-ready": "^4.1.1",
+        "eslint": "^6.8.0"
+    },
     "devDependencies": {
-        "electron": "^7.0.1",
+        "electron": "^7.1.7",
         "electron-builder": "^22.1.0",
         "electron-installer-flatpak": "^0.8.0",
-        "electron-packager": "^14.1.0"
+        "electron-packager": "^14.1.1",
+        "@sindresorhus/tsconfig": "^0.7.0",
+        "@types/electron-settings": "^3.1.1",
+        "@types/electron-store": "^3.2.0",
+        "@types/semver": "^6.2.0",
+        "@typescript-eslint/eslint-plugin": "^2.12.0",
+        "npm-run-all": "^4.1.5",
+        "typescript": "3.7.4"
     },
     "build": {
-        "appId": "com.cyfrost.WhatsApp",
-        "directories": {
-            "app": "src"
-        },
-        "win": {
-            "target": "nsis",
-            "icon": "build/icon.png"
-        },
+        "artifactName": "${name}-${version}-${os}.${ext}",
+        "files": [
+            "**/*"
+        ],
+        "appId": "WhatsApp",
         "linux": {
             "target": [
                 "deb",
                 "rpm",
+                "pacman",
                 "AppImage",
-                "pacman"
+                "tar.gz"
             ],
-            "category": "Internet",
-            "icon": "build/icon.png"
+            "category": "Network;Office;Internet;Social"
+        },
+        "win": {
+            "verifyUpdateCodeSignature": false,
+            "target": "nsis"
         }
-    },
-    "dependencies": {
-        "is-online": "^8.2.0"
     }
 }

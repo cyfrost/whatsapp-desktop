@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript">
+  window.jQuery = window.$ = require('./jquery.slim.min.js');
+  window.app = require('electron').remote;
+  </script>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./materialize.min.css">
+  <script src="./materialize.min.js"></script>
+  <script src="./about.js"></script>
+  <title>About WhatsApp Desktop</title>
+</head>
+<body>
+  <div style="display: flex; justify-content: center; align-items: center; padding-top: 20px;">
+    <img src="./main.png" alt="WhatsApp" style="width:80px;height:80px;">
+    <img src="./mascot.png" alt="Linux" style="width:70px;height:70px; margin-right: 15px;">
+    <img src="./ms.png" alt="Microsoft" style="width:55px;height:54px;">
+  </div>
+  <main>
+      <h5 class="teal-text text-lighten-0"  style="padding-bottom: 10px; border-bottom:  0.5px solid #D3D3D3; border-width: thin;">About WhatsApp Desktop (v<span id="app_version_header"></span>)</h5>
+      <div>
+          <p>WhatsApp client for Windows and Linux built using Electron. This app is an open-source wrapper for the official WhatsApp Web App.</p>
+          <p>Disclaimer: This app is community made and not an official product.</p>
+          <p><p class="teal-text text-lighten-0" style="font-size: 18px; font-weight: 400; padding-top: 5px; padding-bottom: 5px; border-bottom:  0.3px solid #D3D3D3; border-width: thin;">Credits</p><p>Original Author: Enrico204 (<a href='https://github.com/enrico204/Whatsapp-Desktop' target="_blank">Visit Project</a>)<br>Current Maintainer: Cyrus Frost (<a href='https://github.com/cyfrost/whatsapp-desktop' target="_blank">Visit Project</a>)</p>
+
+          <p class="teal-text text-lighten-0" style="font-size: 18px; font-weight: 400; padding-top: 5px; padding-bottom: 5px; border-bottom:  0.3px solid #D3D3D3; border-width: thin;">Debug Info</p><p>App version: v<span id="app_version"></span><br> Electron Runtime: v<span id="electron_version"></span><br> Node Runtime: v<span id="node_version"></span><br> Chromium Engine: v<span id="chromium_version"></span></p>
+      </div>
+  </main>
+</body>
+</html>

@@ -1,7 +1,7 @@
 DIST_DIR=dist
-VERSION=1.0.0
+VERSION=2.0.0
 
-DEPENDENCIES = node npm yarn rpmbuild
+DEPENDENCIES = node npm yarn
 K := $(foreach exec,$(DEPENDENCIES), $(if $(shell which "$(exec)"),dependencies_ok,$(error Command Not Found: "$(exec)")))
 
 # Default target executed on error.
@@ -46,17 +46,13 @@ build-win:
 build-linux:
 	@./node_modules/.bin/electron-builder --linux
 
-.PHONY: build-macos
-build-macos:
-	@./node_modules/.bin/electron-builder --macos
-
 .PHONY: build-all
 build-all:
 	@./node_modules/.bin/electron-builder --linux --windows
 
 .PHONY: run
 run:
-	@cd src && npm run start
+	@rm -rf dist-js && cd src && npm run start
 
 .PHONY: set-version
 set-version:

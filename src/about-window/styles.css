@@ -14,13 +14,7 @@ header h4 {
 }
 
 main {
-  margin: 10px auto;
-  padding: 20px;
-}
-
-#save-button{
-  bottom: 0;
-  right: 0;
+  padding: 10px 20px;
 }
 
 label:after {
