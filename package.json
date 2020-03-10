@@ -1,6 +1,6 @@
 {
     "name": "WhatsApp",
-    "version": "2.0.0",
+    "version": "2.5.0",
     "description": "WhatsApp desktop client for Windows and Linux",
     "main": "dist-js/app.js",
     "author": "Cyrus Frost <cyrus.frost@hotmail.com>",
@@ -20,30 +20,30 @@
         "gettext-parser": "^4.0.2",
         "node-gettext": "^2.0.0",
         "node-notifier": "^6.0.0",
-        "request": "^2.88.0",
-        "electron-context-menu": "^0.15.1",
+        "request": "^2.88.2",
+        "electron-context-menu": "^0.16.0",
         "electron-debug": "^3.0.1",
-        "electron-dl": "^2.0.0",
-        "electron-log": "^4.0.0",
+        "electron-dl": "^3.0.0",
+        "electron-log": "^4.0.7",
         "electron-settings": "^3.2.0",
-        "electron-store": "5.1.0",
+        "electron-store": "5.1.1",
         "electron-updater": "^4.2.0",
-        "electron-util": "^0.13.1",
+        "electron-util": "^0.14.0",
         "element-ready": "^4.1.1",
         "eslint": "^6.8.0"
     },
     "devDependencies": {
-        "electron": "^7.1.7",
-        "electron-builder": "^22.1.0",
+        "electron": "^8.1.0",
+        "electron-builder": "^22.4.0",
         "electron-installer-flatpak": "^0.8.0",
-        "electron-packager": "^14.1.1",
+        "electron-packager": "^14.2.1",
         "@sindresorhus/tsconfig": "^0.7.0",
         "@types/electron-settings": "^3.1.1",
         "@types/electron-store": "^3.2.0",
-        "@types/semver": "^6.2.0",
-        "@typescript-eslint/eslint-plugin": "^2.12.0",
+        "@types/semver": "^7.1.0",
+        "@typescript-eslint/eslint-plugin": "^2.22.0",
         "npm-run-all": "^4.1.5",
-        "typescript": "3.7.4"
+        "typescript": "3.8.3"
     },
     "build": {
         "artifactName": "${name}-${version}-${os}.${ext}",
@@ -54,7 +54,6 @@
         "linux": {
             "target": [
                 "deb",
-                "rpm",
                 "pacman",
                 "AppImage",
                 "tar.gz"
