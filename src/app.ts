@@ -15,8 +15,7 @@ let tray: Tray;
 let isOnline = false;
 let trayContextMenu: any;
 let chatBGCSSKey: string;
-const shouldStartMinimized =
-  app.commandLine.hasSwitch('start-minimized') || app.commandLine.hasSwitch('launch-minimized') || config.get(ConfigKey.LaunchMinimized);
+const shouldStartMinimized = config.get(ConfigKey.EnableTrayIcon) && (app.commandLine.hasSwitch('start-minimized') || app.commandLine.hasSwitch('launch-minimized') || config.get(ConfigKey.LaunchMinimized));
 
 init();
 
