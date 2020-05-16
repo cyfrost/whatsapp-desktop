@@ -74,12 +74,27 @@ const menuTemplate: any[] = [
         }
       },
       {
+        label: 'Enable Dark Mode',
+        type: 'checkbox',
+        checked: config.get(ConfigKey.EnableDarkTheme),
+        click({ checked }: { checked: boolean }) {
+          config.set(ConfigKey.EnableDarkTheme, checked);
+          main.reloadAppTheme();
+        }
+      },
+      {
         label: 'Use Black Chat Background',
         type: 'checkbox',
         checked: config.get(ConfigKey.IsChatBGBlack),
         click({ checked }: { checked: boolean }) {
           config.set(ConfigKey.IsChatBGBlack, checked);
-          main.setChatBackground();
+          main.reloadAppTheme();
+        }
+      },
+      {
+        label: 'Reload theme',
+        click() {
+          main.reloadAppTheme();
         }
       },
       {

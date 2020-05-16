@@ -223,8 +223,8 @@ function onLoadSuccess() {
     tray.setImage(path.join(app.getAppPath(), 'src/assets/icons/icon.png'));
   }
 
-  setChatBackground();
   displayMainWindow();
+  reloadAppTheme();
 }
 
 function createTray() {
@@ -368,15 +368,16 @@ function showAppAbout() {
   aboutWindow.show();
 }
 
-function setChatBackground() {
-  const isBGBlack = config.get(ConfigKey.IsChatBGBlack);
-  const style = '.NuujD, ._3GHFH, .fzCXy { background-image: none !important; background: black !important; }';
+function reloadAppTheme() {
+  const isDarkThemeEnabled = config.get(ConfigKey.EnableDarkTheme) === true;
+  const shouldUseBlackChatBG = config.get(ConfigKey.IsChatBGBlack);
+  const style = '#main { background-image: none !important; background: black !important; }';
+  const wc = mainWindow.webContents;
+  const ipcEvent = isDarkThemeEnabled ? 'enable-dark-mode' : 'disable-dark-mode';
 
-  if (isBGBlack) {
-    mainWindow.webContents.insertCSS(style).then(res => chatBGCSSKey = res, err => log.error(err));
-  } else if (chatBGCSSKey) {
-    mainWindow.webContents.removeInsertedCSS(chatBGCSSKey);
-  }
+  wc.send(ipcEvent, config.get(ConfigKey.DarkReaderConfig));
+
+  shouldUseBlackChatBG ? wc.insertCSS(style).then(res => chatBGCSSKey = res) : wc.removeInsertedCSS(chatBGCSSKey);
 }
 
-export { setAppMenus, removeTrayIcon, createTray, showAppAbout, addSelfToSystemStartup, removeSelfToSystemStartup, setChatBackground };
+export { setAppMenus, removeTrayIcon, createTray, showAppAbout, addSelfToSystemStartup, removeSelfToSystemStartup, reloadAppTheme };
