@@ -1,6 +1,17 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import { app, ipcMain as ipc, shell, dialog, BrowserWindow, Menu, Tray, MenuItemConstructorOptions, session, nativeImage } from 'electron';
+import {
+  app,
+  ipcMain as ipc,
+  shell,
+  dialog,
+  BrowserWindow,
+  Menu,
+  Tray,
+  MenuItemConstructorOptions,
+  session,
+  nativeImage
+} from 'electron';
 import * as log from 'electron-log';
 import * as electronContextMenu from 'electron-context-menu';
 import config, { ConfigKey } from './config';
@@ -15,13 +26,19 @@ let tray: Tray;
 let isOnline = false;
 let trayContextMenu: any;
 let chatBGCSSKey: string;
-const shouldStartMinimized = config.get(ConfigKey.EnableTrayIcon) && (app.commandLine.hasSwitch('start-minimized') || app.commandLine.hasSwitch('launch-minimized') || config.get(ConfigKey.LaunchMinimized));
+const shouldStartMinimized =
+  config.get(ConfigKey.EnableTrayIcon) &&
+  (app.commandLine.hasSwitch('start-minimized') ||
+    app.commandLine.hasSwitch('launch-minimized') ||
+    config.get(ConfigKey.LaunchMinimized));
 
 init();
 
 function noMacOS() {
   if (is.macos) {
-    log.error('Fatal: Detected process env as darwin, aborting due to lack of app support.');
+    log.error(
+      'Fatal: Detected process env as darwin, aborting due to lack of app support.'
+    );
     app.quit();
   }
 }
@@ -64,7 +81,8 @@ function registerIPCHandlers() {
 
 function spoofGlobalUserAgent() {
   session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
-    details.requestHeaders['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36';
+    details.requestHeaders['User-Agent'] =
+      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36';
     callback({
       cancel: false,
       requestHeaders: details.requestHeaders
@@ -76,11 +94,15 @@ function validateSingleInstance() {
   const gotTheLock = app.requestSingleInstanceLock();
 
   if (!gotTheLock) {
-    log.error('Fatal: Failed to acquire single instance lock on main thread. Aborting!');
+    log.error(
+      'Fatal: Failed to acquire single instance lock on main thread. Aborting!'
+    );
     app.quit();
   } else {
     app.on('second-instance', () => {
-      log.info('Detected second instance invocation, resuing initial instance instead');
+      log.info(
+        'Detected second instance invocation, resuing initial instance instead'
+      );
       mainWindow.show();
     });
   }
@@ -88,7 +110,9 @@ function validateSingleInstance() {
 
 function displayMainWindow() {
   shouldStartMinimized ? mainWindow.hide() : mainWindow.show();
-  log.info(`Window display mode: ${shouldStartMinimized ? 'hidden' : 'visible'}`);
+  log.info(
+    `Window display mode: ${shouldStartMinimized ? 'hidden' : 'visible'}`
+  );
 }
 
 function createWindow(): void {
@@ -110,11 +134,15 @@ function createWindow(): void {
 
   log.info('Main window creation successful!');
 
-  if (lastWindowState.maximized && !mainWindow.isMaximized() && !shouldStartMinimized) {
+  if (
+    lastWindowState.maximized &&
+    !mainWindow.isMaximized() &&
+    !shouldStartMinimized
+  ) {
     mainWindow.maximize();
   }
 
-  mainWindow.on('close', e => {
+  mainWindow.on('close', (e) => {
     if (!isQuitting) {
       e.preventDefault();
       mainWindow.blur();
@@ -126,7 +154,9 @@ function createWindow(): void {
   mainWindow.on('hide', () => toggleAppVisiblityTrayItem(false));
   mainWindow.on('show', () => toggleAppVisiblityTrayItem(true));
   mainWindow.webContents.on('did-finish-load', onLoadSuccess);
-  mainWindow.webContents.on('new-window', (event, url, _1, _2, options) => (shell.openExternal(url)));
+  mainWindow.webContents.on('new-window', (event, url, _1, _2, options) =>
+    shell.openExternal(url)
+  );
 
   mainWindow.on('page-title-updated', (event, title) => {
     let count: any = title.match(/\((\d+)\)/);
@@ -134,7 +164,12 @@ function createWindow(): void {
 
     if (parseInt(count) > 0) {
       mainWindow.flashFrame(true);
-      var badge = nativeImage.createFromPath(app.getAppPath() + 'src/assets/badges/badge-' + (count > 9 ? 0 : count) + '.png');
+      var badge = nativeImage.createFromPath(
+        app.getAppPath() +
+          'src/assets/badges/badge-' +
+          (count > 9 ? 0 : count) +
+          '.png'
+      );
       mainWindow.setOverlayIcon(badge, 'new messages');
     } else {
       mainWindow.setOverlayIcon(null, 'no new messages');
@@ -180,7 +215,10 @@ function loadNetworkChangeHandler() {
     webPreferences: { nodeIntegration: true }
   });
 
-  const onlineStatusWindowRes = `file://${path.resolve(app.getAppPath(), 'src/network-status.html')}`;
+  const onlineStatusWindowRes = `file://${path.resolve(
+    app.getAppPath(),
+    'src/network-status.html'
+  )}`;
 
   onlineStatusWindow.loadURL(onlineStatusWindowRes);
 
@@ -207,7 +245,9 @@ function setAppMenus() {
 function checkAutoStartStatus() {
   const isAutoStartEnabled = config.get(ConfigKey.AutoStartOnLogin);
   log.info(
-    `Auto-start at login is ${isAutoStartEnabled ? 'enabled' : 'disabled'}, ${isAutoStartEnabled ? 'enabling' : 'disabling'} login item (if applicable).`
+    `Auto-start at login is ${isAutoStartEnabled ? 'enabled' : 'disabled'}, ${
+      isAutoStartEnabled ? 'enabling' : 'disabling'
+    } login item (if applicable).`
   );
 
   isAutoStartEnabled ? addSelfToSystemStartup() : removeSelfToSystemStartup();
@@ -269,7 +309,9 @@ function createTray() {
 function setAutoStartOnFreedesktop(enableAutoStart: boolean) {
   const xdgConfigDirectory: string = process.env.XDG_CONFIG_HOME;
   const useFallback = !xdgConfigDirectory || !fs.existsSync(xdgConfigDirectory);
-  const startupDirectory = useFallback ? path.join(require('os').homedir(), '.config/autostart') : path.join(xdgConfigDirectory, 'autostart');
+  const startupDirectory = useFallback
+    ? path.join(require('os').homedir(), '.config/autostart')
+    : path.join(xdgConfigDirectory, 'autostart');
   const dotDesktopFile = path.join(startupDirectory, 'whatsapp.desktop');
   log.info(`File: ${dotDesktopFile}, using fallback: ${useFallback}`);
 
@@ -279,7 +321,7 @@ function setAutoStartOnFreedesktop(enableAutoStart: boolean) {
       return;
     }
 
-    fs.unlink(dotDesktopFile, err => {
+    fs.unlink(dotDesktopFile, (err) => {
       if (err) {
         return log.error(`Failed to remove self from autostart. ${err}`);
       }
@@ -289,8 +331,7 @@ function setAutoStartOnFreedesktop(enableAutoStart: boolean) {
     return;
   }
 
-  const freeDesktopStartupScript =
-`[Desktop Entry]
+  const freeDesktopStartupScript = `[Desktop Entry]
 Name=WhatsApp
 Exec=/opt/WhatsApp/whatsapp %U
 Terminal=false
@@ -302,10 +343,12 @@ Categories=Network;
 `;
 
   if (fs.existsSync(dotDesktopFile)) {
-    log.warn('Autostart script already exists, overwriting with current config.');
+    log.warn(
+      'Autostart script already exists, overwriting with current config.'
+    );
   }
 
-  fs.writeFile(dotDesktopFile, freeDesktopStartupScript, err => {
+  fs.writeFile(dotDesktopFile, freeDesktopStartupScript, (err) => {
     if (err) {
       return log.error(`Failed to add WhatsApp to startup ${err}`);
     }
@@ -363,20 +406,35 @@ function showAppAbout() {
   aboutWindow.on('close', () => (aboutWindow = undefined));
   aboutWindow.setMenu(null);
   aboutWindow.setMenuBarVisibility(false);
-  aboutWindow.loadURL(`file://${path.resolve(app.getAppPath(), 'src/about-window', 'about.html')}`);
+  aboutWindow.loadURL(
+    `file://${path.resolve(app.getAppPath(), 'src/about-window', 'about.html')}`
+  );
   aboutWindow.show();
 }
 
 function reloadAppTheme() {
   const isDarkThemeEnabled = config.get(ConfigKey.EnableDarkTheme) === true;
   const shouldUseBlackChatBG = config.get(ConfigKey.IsChatBGBlack);
-  const style = '#main { background-image: none !important; background: black !important; }';
+  const style =
+    '#main { background-image: none !important; background: black !important; }';
   const wc = mainWindow.webContents;
-  const ipcEvent = isDarkThemeEnabled ? 'enable-dark-mode' : 'disable-dark-mode';
+  const ipcEvent = isDarkThemeEnabled
+    ? 'enable-dark-mode'
+    : 'disable-dark-mode';
 
   wc.send(ipcEvent, config.get(ConfigKey.DarkReaderConfig));
 
-  shouldUseBlackChatBG ? wc.insertCSS(style).then(res => chatBGCSSKey = res) : wc.removeInsertedCSS(chatBGCSSKey);
+  shouldUseBlackChatBG
+    ? wc.insertCSS(style).then((res) => (chatBGCSSKey = res))
+    : wc.removeInsertedCSS(chatBGCSSKey);
 }
 
-export { setAppMenus, removeTrayIcon, createTray, showAppAbout, addSelfToSystemStartup, removeSelfToSystemStartup, reloadAppTheme };
+export {
+  setAppMenus,
+  removeTrayIcon,
+  createTray,
+  showAppAbout,
+  addSelfToSystemStartup,
+  removeSelfToSystemStartup,
+  reloadAppTheme
+};

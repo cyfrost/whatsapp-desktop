@@ -36,7 +36,7 @@ type TypedStore = {
 const defaultDarkReaderConfig = {
   brightness: 100,
   contrast: 100,
-  sepia: 0,
+  sepia: 0
 };
 
 const defaults = {

@@ -1,5 +1,5 @@
+SHELL:=/bin/bash
 DIST_DIR=dist
-VERSION=2.0.0
 
 DEPENDENCIES = node npm yarn
 K := $(foreach exec,$(DEPENDENCIES), $(if $(shell which "$(exec)"),dependencies_ok,$(error Command Not Found: "$(exec)")))
@@ -9,58 +9,73 @@ error:
 	@printf "\nUnknown target (Makefile error).\n\nAbort.\n\n"
 	@exit 2
 
+.PHONY: install-yarn
+install-yarn:
+	@curl --compressed -o- -L https://yarnpkg.com/install.sh | bash && source ~/.bashrc && yarn --version
+
+.PHONY: compile
+compile:
+	@make clean-js && yarn tsc
+
+.PHONY: install
+install:
+	@make env
+
+.PHONY: clean-js
+clean-js:
+	@rm -rf dist-js
+
 .PHONY: env
 env:
-	@yarn && cd src && yarn && printf "\nAll development dependencies have been installed successfully!\n\n"
+	@yarn && printf "\nAll dependencies have been installed successfully!\n\n"
 
 .PHONY: update
 update:
-	@ncu -u && yarn && cd src && ncu -u && yarn && printf "\nAll development dependencies have been installed successfully!\n\n"
-
+	@ncu -u -x "@types/node" && yarn && printf "\nAll dependencies have been updated successfully!\n\n"
 
 .PHONY: build-rpm
 build-rpm:
-	@./node_modules/.bin/electron-builder --linux rpm
+	@make compile && ./node_modules/.bin/electron-builder --linux rpm
 
 .PHONY: build-deb
 build-deb:
-	@./node_modules/.bin/electron-builder --linux deb
+	@make compile && ./node_modules/.bin/electron-builder --linux deb
 
 .PHONY: build-snap
 build-snap:
-	@./node_modules/.bin/electron-builder --linux snap
+	@make compile && ./node_modules/.bin/electron-builder --linux snap
 
 .PHONY: build-pacman
 build-pacman:
-	@./node_modules/.bin/electron-builder --linux pacman
+	@make compile && ./node_modules/.bin/electron-builder --linux pacman
 
 .PHONY: build-appimage
 build-appimage:
-	@./node_modules/.bin/electron-builder --linux appImage
+	@make compile && ./node_modules/.bin/electron-builder --linux appImage
 
 .PHONY: build-win
 build-win:
-	@./node_modules/.bin/electron-builder --win
+	@make compile && ./node_modules/.bin/electron-builder --win
 
 .PHONY: build-linux
 build-linux:
-	@./node_modules/.bin/electron-builder --linux
+	@make compile && ./node_modules/.bin/electron-builder --linux
 
 .PHONY: build-all
 build-all:
-	@./node_modules/.bin/electron-builder --linux --windows
+	@make compile && ./node_modules/.bin/electron-builder --linux --windows
 
 .PHONY: run
 run:
-	@rm -rf dist-js && cd src && npm run start
-
-.PHONY: set-version
-set-version:
-	cd src && npm version $(VERSION)
+	@yarn start
 
 .PHONY: clean
 clean:
 	@rm -rf $(DIST_DIR) && printf "\nBuild artifacts (from './$(DIST_DIR)') have been deleted successfully!\n\n"
+
+.PHONY: clean-env
+clean-env:
+	@rm -rf node_modules yarn.lock $(DIST_DIR) dist-js && printf "\nCleanup OK!\n\n"
 
 .PHONY: list
 list:

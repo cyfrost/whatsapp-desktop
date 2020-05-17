@@ -44,7 +44,9 @@ const menuTemplate: any[] = [
         checked: config.get(ConfigKey.AutoStartOnLogin),
         click({ checked }: { checked: boolean }) {
           config.set(ConfigKey.AutoStartOnLogin, checked);
-          checked ? main.addSelfToSystemStartup() : main.removeSelfToSystemStartup();
+          checked
+            ? main.addSelfToSystemStartup()
+            : main.removeSelfToSystemStartup();
         }
       },
       {
@@ -159,7 +161,9 @@ const menuTemplate: any[] = [
       {
         label: 'Report a problem',
         click() {
-          shell.openExternal('https://github.com/cyfrost/gmail-electron/issues/new/choose');
+          shell.openExternal(
+            'https://github.com/cyfrost/gmail-electron/issues/new/choose'
+          );
         }
       }
     ]
