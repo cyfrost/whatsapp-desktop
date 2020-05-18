@@ -17,6 +17,7 @@ import * as electronContextMenu from 'electron-context-menu';
 import config, { ConfigKey } from './config';
 import menu from './menu';
 import { is } from 'electron-util';
+import { setCustomStyle } from './utils';
 
 let mainWindow: BrowserWindow;
 let onlineStatusWindow: BrowserWindow;
@@ -127,7 +128,7 @@ function createWindow(): void {
     webPreferences: {
       nodeIntegration: false,
       nativeWindowOpen: false,
-      preload: path.join(__dirname, 'preload-injected.js')
+      preload: path.join(__dirname, 'preload')
     },
     show: !shouldStartMinimized
   });
@@ -414,19 +415,28 @@ function showAppAbout() {
 
 function reloadAppTheme() {
   const isDarkThemeEnabled = config.get(ConfigKey.EnableDarkTheme) === true;
-  const shouldUseBlackChatBG = config.get(ConfigKey.IsChatBGBlack);
-  const style =
-    '#main { background-image: none !important; background: black !important; }';
+  const useNativeDarkMode = config.get(ConfigKey.UseNativeDarkMode) === true;
+  const shouldUseBlackChatBG = config.get(ConfigKey.IsChatBGBlack) === true;
   const wc = mainWindow.webContents;
-  const ipcEvent = isDarkThemeEnabled
-    ? 'enable-dark-mode'
-    : 'disable-dark-mode';
+  const style = '#main { background-image: none !important; background: black !important; }';
+  const nativeDarkModeClass = 'dark';
 
-  wc.send(ipcEvent, config.get(ConfigKey.DarkReaderConfig));
+  // Disable all dark mode and remove chat background
+  wc.send('disable-dark-mode');
+  setCustomStyle(nativeDarkModeClass, false);
 
-  shouldUseBlackChatBG
-    ? wc.insertCSS(style).then((res) => (chatBGCSSKey = res))
-    : wc.removeInsertedCSS(chatBGCSSKey);
+  if (chatBGCSSKey || !shouldUseBlackChatBG) {
+    wc.removeInsertedCSS(chatBGCSSKey).then(_=> {}, _ => {});
+    chatBGCSSKey = undefined;
+  }
+
+  if (isDarkThemeEnabled) {
+    useNativeDarkMode ? setCustomStyle(nativeDarkModeClass, true) : wc.send('enable-dark-mode', config.get(ConfigKey.DarkReaderConfig));
+  }
+
+  if (shouldUseBlackChatBG) {
+    wc.insertCSS(style).then((res) => (chatBGCSSKey = res));
+  }
 }
 
 export {

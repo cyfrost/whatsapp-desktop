@@ -1,5 +1,6 @@
 import { ipcRenderer } from 'electron';
-const DarkReader = require('darkreader');
+import { ConfigKey } from './config';
+import DarkReader = require('darkreader');
 
 (function () {
   const OldNotify = window.Notification;
@@ -10,13 +11,17 @@ const DarkReader = require('darkreader');
     return updatedNotif;
   }
 
-  function enableDarkTheme(darkReaderConfig) {
+  function enableDarkTheme(darkReaderConfig: object) {
     DarkReader.enable(darkReaderConfig);
   }
 
   function disableDarkTheme() {
     DarkReader.disable();
   }
+
+  ipcRenderer.on('set-custom-style', (_: Event, key: ConfigKey, enabled: boolean) => {
+    document.body.classList[enabled ? 'add' : 'remove'](key)
+  })
 
   newNotify.requestPermission = OldNotify.requestPermission.bind(OldNotify);
   Object.defineProperty(newNotify, 'permission', {
@@ -25,7 +30,7 @@ const DarkReader = require('darkreader');
     },
   });
 
-  window.Notification = newNotify;
+  (window as any).Notification = newNotify;
 
   ipcRenderer.on('enable-dark-mode', function(event, store) {
     const darkReaderConfig = store;

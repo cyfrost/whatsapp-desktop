@@ -76,9 +76,18 @@ const menuTemplate: any[] = [
         }
       },
       {
+        label: 'Use WhatsApp\'s Native Dark Mode',
+        type: 'checkbox',
+        checked: config.get(ConfigKey.UseNativeDarkMode),
+        click({ checked }: { checked: boolean }) {
+          config.set(ConfigKey.UseNativeDarkMode, checked);
+          main.reloadAppTheme();
+        }
+      },
+      {
         label: 'Enable Dark Mode',
         type: 'checkbox',
-        checked: config.get(ConfigKey.EnableDarkTheme),
+        checked: config.get(ConfigKey.EnableDarkTheme) === true,
         click({ checked }: { checked: boolean }) {
           config.set(ConfigKey.EnableDarkTheme, checked);
           main.reloadAppTheme();
@@ -87,7 +96,7 @@ const menuTemplate: any[] = [
       {
         label: 'Use Black Chat Background',
         type: 'checkbox',
-        checked: config.get(ConfigKey.IsChatBGBlack),
+        checked: config.get(ConfigKey.IsChatBGBlack) === true,
         click({ checked }: { checked: boolean }) {
           config.set(ConfigKey.IsChatBGBlack, checked);
           main.reloadAppTheme();

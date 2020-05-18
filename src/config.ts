@@ -18,6 +18,7 @@ export enum ConfigKey {
   AutoHideMenuBar = 'autoHideMenuBar',
   EnableTrayIcon = 'enableTrayIcon',
   IsChatBGBlack = 'isUsingBlackChatBG',
+  UseNativeDarkMode = 'useNativeDarkMode',
   EnableDarkTheme = 'EnableDarkTheme',
   DarkReaderConfig = 'DarkReaderConfig'
 }
@@ -31,6 +32,7 @@ type TypedStore = {
   [ConfigKey.IsChatBGBlack]: boolean;
   [ConfigKey.EnableDarkTheme]: boolean;
   [ConfigKey.DarkReaderConfig]: object;
+  [ConfigKey.UseNativeDarkMode]: boolean;
 };
 
 const defaultDarkReaderConfig = {
@@ -55,6 +57,7 @@ const defaults = {
   [ConfigKey.AutoStartOnLogin]: false,
   [ConfigKey.EnableTrayIcon]: true,
   [ConfigKey.IsChatBGBlack]: false,
+  [ConfigKey.UseNativeDarkMode]: true,
   [ConfigKey.EnableDarkTheme]: false,
   [ConfigKey.DarkReaderConfig]: defaultDarkReaderConfig
 };
