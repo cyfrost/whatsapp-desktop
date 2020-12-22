@@ -34,7 +34,7 @@
         "gettext-parser": "^4.0.3",
         "is-online": "^8.4.0",
         "node-gettext": "^3.0.0",
-        "node-notifier": "^7.0.1",
+        "node-notifier": "^8.0.1",
         "process-nextick-args": "^2.0.1",
         "request": "^2.88.2",
         "util-deprecate": "^1.0.2"
