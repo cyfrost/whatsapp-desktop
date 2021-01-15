@@ -31,7 +31,7 @@ env:
 
 .PHONY: update
 update:
-	@ncu -u -x "@types/node" && yarn && printf "\nAll dependencies have been updated successfully!\n\n"
+	@npx npm-check-updates -u && yarn && printf "\nAll dependencies have been updated successfully!\n\n"
 
 .PHONY: build-rpm
 build-rpm:

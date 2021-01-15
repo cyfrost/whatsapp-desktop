@@ -16,7 +16,6 @@ import * as log from 'electron-log';
 import * as electronContextMenu from 'electron-context-menu';
 import config, { ConfigKey } from './config';
 import menu from './menu';
-import { is } from 'electron-util';
 import { setCustomStyle } from './utils';
 
 let mainWindow: BrowserWindow;
@@ -36,12 +35,24 @@ const shouldStartMinimized =
 init();
 
 function noMacOS() {
-  if (is.macos) {
+  if (isMacOS()) {
     log.error(
       'Fatal: Detected process env as darwin, aborting due to lack of app support.'
     );
     app.quit();
   }
+}
+
+function isMacOS() {
+  return process.platform === 'darwin';
+}
+
+function isLinux() {
+  return process.platform === 'linux';
+}
+
+function isWoedows() {
+  return process.platform === 'win32';
 }
 
 function init() {
@@ -127,6 +138,7 @@ function createWindow(): void {
     y: lastWindowState.bounds.y,
     webPreferences: {
       nodeIntegration: false,
+      contextIsolation: false,
       nativeWindowOpen: false,
       preload: path.join(__dirname, 'preload')
     },
@@ -182,7 +194,7 @@ function createWindow(): void {
 }
 
 function removeTrayIcon() {
-  if (is.linux) {
+  if (isLinux()) {
     log.warn(
       'Tray icon cannot be removed under linux due to a inconsistent behaviour of Tray indicators extension under GNOME and KDE. Waiting for app restart instead.'
     );
@@ -213,7 +225,7 @@ function loadNetworkChangeHandler() {
     width: 0,
     height: 0,
     show: false,
-    webPreferences: { nodeIntegration: true }
+    webPreferences: { nodeIntegration: true, contextIsolation: false }
   });
 
   const onlineStatusWindowRes = `file://${path.resolve(
@@ -359,7 +371,7 @@ Categories=Network;
 }
 
 function addSelfToSystemStartup() {
-  if (is.windows) {
+  if (isWoedows()) {
     const appFolder = path.dirname(process.execPath);
     const exeName = path.basename(process.execPath);
     const appPath = path.resolve(appFolder, exeName);
@@ -369,18 +381,18 @@ function addSelfToSystemStartup() {
       path: appPath
     });
     log.info('Added WhatsApp to auto-start at login');
-  } else if (is.linux) {
+  } else if (isLinux()) {
     setAutoStartOnFreedesktop(true);
   }
 }
 
 function removeSelfToSystemStartup() {
-  if (is.windows) {
+  if (isWoedows()) {
     app.setLoginItemSettings({
       openAtLogin: false
     });
     log.info('Removed WhatsApp from startup items');
-  } else if (is.linux) {
+  } else if (isLinux()) {
     setAutoStartOnFreedesktop(false);
   }
 }
@@ -400,7 +412,9 @@ function showAppAbout() {
     frame: true,
     webPreferences: {
       nodeIntegration: true,
-      nativeWindowOpen: true
+      contextIsolation: false,
+      nativeWindowOpen: true,
+      enableRemoteModule: true
     }
   });
 
