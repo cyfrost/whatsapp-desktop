@@ -45,7 +45,7 @@
         "@types/electron-store": "^3.2.0",
         "@types/semver": "^7.3.4",
         "@typescript-eslint/eslint-plugin": "^4.13.0",
-        "electron": "^11.2.0",
+        "electron": "^13.6.6",
         "electron-builder": "^22.9.1",
         "electron-installer-flatpak": "^0.8.0",
         "electron-packager": "^15.2.0",
